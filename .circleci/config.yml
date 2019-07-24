@@ -17,7 +17,7 @@ jobs:
      - run:
          name: Tests
          command: |
-           yarn test
+           yarn coverage
      - run:
          name: Upload coverage
          command: |
