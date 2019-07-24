@@ -4,7 +4,7 @@
 
 # localize-react
 
-Lightweight React Localization Library
+✈️ Lightweight React Localization Library 🇺🇸
 
 ## Motivation
 
