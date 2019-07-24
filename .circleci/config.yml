@@ -1,0 +1,24 @@
+version: 2.0
+jobs:
+ build:
+   docker:
+     - image: library/node:12.2.0-alpine
+   steps:
+     - checkout
+     - run:
+         name: Install yarn
+         command: |
+           npm config set unsafe-perm true
+           npm i yarn -g
+     - run:
+         name: Install dependencies
+         command: |
+           yarn
+     - run:
+         name: Tests
+         command: |
+           yarn test
+     - run:
+         name: Upload coverage
+         command: |
+           ./node_modules/.bin/codecov --token="3a197028-3732-4f23-93d3-8d09b43dd236"
