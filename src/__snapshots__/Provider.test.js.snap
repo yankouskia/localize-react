@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Provider LocalizationConsumer provides empty object translations by default 1`] = `"any key"`;
+
+exports[`Provider LocalizationConsumer provides translation for empty message 1`] = `
+<div>
+  <span>
+    
+  </span>
+</div>
+`;
+
+exports[`Provider LocalizationConsumer provides translation for fallback locale 1`] = `
+<div>
+  <span>
+    Alex
+  </span>
+  <span>
+    Yankouski
+  </span>
+</div>
+`;
+
+exports[`Provider LocalizationConsumer provides translation for set locale 1`] = `"yankouskia"`;
+
+exports[`Provider LocalizationConsumer provides translation the same as key for unexisting key 1`] = `
+<div>
+  <span>
+    unexistingKey
+  </span>
+</div>
+`;
+
+exports[`Provider LocalizationContext can be used in classes 1`] = `
+<span>
+  yankouskia
+</span>
+`;
+
+exports[`Provider LocalizationProvider renders children 1`] = `"children as a text"`;

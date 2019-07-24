@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib provides non-breaking changes 1`] = `
+Array [
+  "LocalizationConsumer",
+  "LocalizationContext",
+  "LocalizationProvider",
+  "useLocalize",
+  "Message",
+]
+`;
