@@ -18,4 +18,4 @@ jobs:
          name: Tests
          command: |
            yarn coverage
-           ./node_modules/.bin/codecov --token="3a197028-3732-4f23-93d3-8d09b43dd236"
+           yarn codecov
