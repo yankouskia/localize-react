@@ -1,0 +1,20 @@
+{
+  "plugins": [
+    "@babel/plugin-transform-object-assign",
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "> 1%",
+            "safari >= 8",
+            "ie >= 11"
+          ]
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ]
+}

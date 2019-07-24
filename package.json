@@ -1,0 +1,30 @@
+{
+  "name": "localize-react",
+  "version": "1.0.0",
+  "description": "React Localization Library",
+  "main": "./dist/lib.js",
+  "repository": "git@github.com:yankouskia/localize-react.git",
+  "author": "yankouskia <aleksandr.yankovskiy@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "jest": "^24.8.0",
+    "react": "^16.8.6",
+    "react-test-renderer": "^16.8.6",
+    "webpack": "^4.37.0",
+    "webpack-cli": "^3.3.6"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production webpack -p",
+    "test": "jest",
+    "coverage": "jest --coverage"
+  }
+}
