@@ -18,7 +18,4 @@ jobs:
          name: Tests
          command: |
            yarn coverage
-     - run:
-         name: Upload coverage
-         command: |
            ./node_modules/.bin/codecov --token="3a197028-3732-4f23-93d3-8d09b43dd236"
