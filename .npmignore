@@ -1,0 +1,12 @@
+.editorconfig
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+coverage/
+.circleci/
+.npm
+src/
+webpack.config.js
+yarn.lock
+jest.config.js
