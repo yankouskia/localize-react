@@ -10,18 +10,7 @@ exports[`Provider LocalizationConsumer provides translation for empty message 1`
 </div>
 `;
 
-exports[`Provider LocalizationConsumer provides translation for fallback locale 1`] = `
-<div>
-  <span>
-    Alex
-  </span>
-  <span>
-    Yankouski
-  </span>
-</div>
-`;
-
-exports[`Provider LocalizationConsumer provides translation for set locale 1`] = `"yankouskia"`;
+exports[`Provider LocalizationConsumer provides translation for set locale 1`] = `"Alex"`;
 
 exports[`Provider LocalizationConsumer provides translation the same as key for unexisting key 1`] = `
 <div>

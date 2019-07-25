@@ -1,22 +1,19 @@
 import React from 'react';
-
-const DEFAULT_LOCALE = 'en';
+import { sanitizeLocale } from './helpers';
 
 export const LocalizationContext = React.createContext();
 
-export function LocalizationProvider({ children, defaultLocale = DEFAULT_LOCALE, locale = DEFAULT_LOCALE, translations = {} }) {
+export function LocalizationProvider({ children, locale, translations = {} }) {
+  const sanitizedLocale = sanitizeLocale(locale, translations);
+  const pureTranslations = sanitizedLocale ? translations[sanitizedLocale] : translations;
+
   function translate(key) {
-    const requestedTranslation = translations[locale] && translations[locale][key];
-    if (typeof requestedTranslation === 'string') return requestedTranslation;
-
-    const fallbackTranslation = translations[defaultLocale] && translations[defaultLocale][key];
-    if (typeof fallbackTranslation === 'string') return fallbackTranslation;
-
-    return key;
+    if (!pureTranslations || typeof pureTranslations[key] !== 'string') return key;
+    return pureTranslations[key];
   }
 
   return (
-    <LocalizationContext.Provider value={{ defaultLocale, locale, translate, translations }}>
+    <LocalizationContext.Provider value={{ locale, translate, translations }}>
       {children}
     </LocalizationContext.Provider>
   );

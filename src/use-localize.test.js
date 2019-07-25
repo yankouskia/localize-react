@@ -4,9 +4,7 @@ import { LocalizationProvider } from './Provider';
 import { useLocalize } from './use-localize';
 
 const TRANSLATIONS = {
-  en: {
-    name: 'Alex',
-  },
+  name: 'Alex',
 };
 
 describe('Message', () => {
