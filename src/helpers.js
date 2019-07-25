@@ -1,3 +1,5 @@
+let TRANSLATION_CACHE = {};
+
 export const WARNING_MESSAGE = 'localize-react: There are no translations for specified locale';
 
 export function sanitizeLocale(locale, translations) {
@@ -21,4 +23,19 @@ export function sanitizeLocale(locale, translations) {
 
   console.warn(WARNING_MESSAGE, locale);
   return locale;
+}
+
+export function memoize(fn) {
+  return function memoizedFn(input) {
+    if (TRANSLATION_CACHE[input]) return TRANSLATION_CACHE[input];
+
+    const output = fn(input);
+    TRANSLATION_CACHE[input] = output;
+
+    return output;
+  }
+}
+
+export function clearCache() {
+  TRANSLATION_CACHE = {};
 }
