@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sanitizeLocale returns null is locale is not specified 1`] = `null`;
+exports[`helpers sanitizeLocale returns null is locale is not specified 1`] = `null`;
 
-exports[`sanitizeLocale returns the lowercase underscore locale if original was not found 1`] = `"en_ca"`;
+exports[`helpers sanitizeLocale returns the lowercase underscore locale if original was not found 1`] = `"en_ca"`;
 
-exports[`sanitizeLocale returns the original and makes warning if no matching happened 1`] = `"FR-CA"`;
+exports[`helpers sanitizeLocale returns the original and makes warning if no matching happened 1`] = `"FR-CA"`;
 
-exports[`sanitizeLocale returns the same locale is that is defined in translations 1`] = `"En-uS"`;
+exports[`helpers sanitizeLocale returns the same locale is that is defined in translations 1`] = `"En-uS"`;
 
-exports[`sanitizeLocale returns the shorten locale if original was not found 1`] = `"en"`;
+exports[`helpers sanitizeLocale returns the shorten locale if original was not found 1`] = `"en"`;

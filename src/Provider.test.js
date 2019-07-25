@@ -10,9 +10,16 @@ const TRANSLATIONS = {
   en: {
     name: 'Alex',
     emptyMessage: '',
+    n: {
+      i: {
+        c: {
+          k: 'yankouskia',
+        }
+      }
+    }
   },
   fr: {
-    github: 'yankouskia',
+    github: 'https://github.com/yankouskia',
   },
 };
 
@@ -100,6 +107,68 @@ describe('Provider', () => {
               {({ translate }) => (
                 <div>
                   <span>{translate('unexistingKey')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('provides translation with nested key', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="en"
+            translations={TRANSLATIONS}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('n.i.c.k')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('provides key translation if nested key was not found', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="en"
+            translations={TRANSLATIONS}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('n.i.c.k.not.found')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('provides nested key translation without locale', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            translations={{ a: { b: 'translation' } }}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('a.b')}</span>
                 </div>
               )}
             </LocalizationConsumer>

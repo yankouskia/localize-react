@@ -10,7 +10,7 @@
 
 Creating really simple lightweight library for localization in React applications without any dependencies, which is built on top of new [React Context Api](https://reactjs.org/docs/context.html)
 
-Library has just **3.9KB** gzipped size
+Library has just **735 Bytes** gzipped size
 
 
 ## Installation
@@ -73,7 +73,7 @@ Example:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LocalizationConsumer, Message } from 'localize-react';
+import { LocalizationProvider, Message } from 'localize-react';
 
 const TRANSLATIONS = {
   en: {
@@ -106,7 +106,7 @@ Example:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useLocalize } from 'localize-react';
+import { LocalizationProvider, useLocalize } from 'localize-react';
 
 const TRANSLATIONS = {
   en: {
@@ -140,6 +140,16 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 Alternative way of usage inside class components:
 
 ```js
+import React from 'react';
+import { LocalizationContext, LocalizationProvider } from 'localize-react';
+
+const TRANSLATIONS = {
+  en: {
+    name: 'Alex',
+  },
+};
+
+
 class Translation extends React.PureComponent {
   render() {
     return (
@@ -177,6 +187,29 @@ en-us
 EN_US
 en
 eN-uS
+```
+
+### translations
+Translations could be passed in any object form (plain or with deep properties)
+
+Valid examples:
+
+```js
+const translations = {
+  n: {
+    a: {
+      m: {
+        e: 'Alex',
+      },
+    },
+  },
+},
+```
+
+You could use key with dot delimiter to access that property:
+
+```js
+<Message descriptor="n.a.m.e" /> // will print "Alex"
 ```
 
 If there is no exact match in translations, then the value of locale will be sanitized and formatted to **lower_case_separate_by_underscore**. Make sure you provide translations object with keys in this format. If translations for long locale will not be found, and translations will be found for shorten alternative - that version will be used

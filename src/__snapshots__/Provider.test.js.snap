@@ -2,6 +2,22 @@
 
 exports[`Provider LocalizationConsumer provides empty object translations by default 1`] = `"any key"`;
 
+exports[`Provider LocalizationConsumer provides key translation if nested key was not found 1`] = `
+<div>
+  <span>
+    n.i.c.k.not.found
+  </span>
+</div>
+`;
+
+exports[`Provider LocalizationConsumer provides nested key translation without locale 1`] = `
+<div>
+  <span>
+    translation
+  </span>
+</div>
+`;
+
 exports[`Provider LocalizationConsumer provides translation for empty message 1`] = `
 <div>
   <span>
@@ -20,9 +36,17 @@ exports[`Provider LocalizationConsumer provides translation the same as key for 
 </div>
 `;
 
+exports[`Provider LocalizationConsumer provides translation with nested key 1`] = `
+<div>
+  <span>
+    yankouskia
+  </span>
+</div>
+`;
+
 exports[`Provider LocalizationContext can be used in classes 1`] = `
 <span>
-  yankouskia
+  https://github.com/yankouskia
 </span>
 `;
 

@@ -1,8 +1,8 @@
 {
   "name": "localize-react",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "React Localization Library",
-  "main": "./dist/lib.js",
+  "main": "dist/localize-react.js",
   "repository": "git@github.com:yankouskia/localize-react.git",
   "author": "yankouskia <aleksandr.yankovskiy@gmail.com>",
   "license": "MIT",
@@ -20,11 +20,16 @@
     "jest": "^24.8.0",
     "react": "^16.8.6",
     "react-test-renderer": "^16.8.6",
-    "webpack": "^4.37.0",
-    "webpack-cli": "^3.3.6"
+    "rollup": "^1.17.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack -p",
+    "build": "NODE_ENV=production rollup -c",
     "test": "jest",
     "coverage": "jest --coverage",
     "codecov": "codecov -t 8365e97e-7298-4a00-ad32-740d44db89e5 -f coverage/*.json"
