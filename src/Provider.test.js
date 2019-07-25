@@ -117,6 +117,27 @@ describe('Provider', () => {
         expect(tree).toMatchSnapshot();
     });
 
+    it('provides translation for empty key as the same key', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="en"
+            translations={TRANSLATIONS}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
     it('provides translation with nested key', () => {
       const tree = renderer
         .create(

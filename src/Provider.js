@@ -8,7 +8,7 @@ export function LocalizationProvider({ children, locale, translations = {} }) {
   const pureTranslations = sanitizedLocale ? translations[sanitizedLocale] : translations;
 
   function pureTranslateFn(key) {
-    if (!pureTranslations) return key;
+    if (!pureTranslations || !key) return key;
     if (typeof pureTranslations[key] === 'string') return pureTranslations[key];
 
     const complexKeyArray = key.split('.');

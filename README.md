@@ -10,7 +10,7 @@
 
 Creating really simple lightweight library for localization in React applications without any dependencies, which is built on top of new [React Context Api](https://reactjs.org/docs/context.html)
 
-Library has just **735 Bytes** gzipped size
+Library has just **737 Bytes** gzipped size
 
 
 ## Installation
