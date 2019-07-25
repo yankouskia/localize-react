@@ -9,7 +9,6 @@ import {
 const TRANSLATIONS = {
   en: {
     name: 'Alex',
-    surname: 'Yankouski',
     emptyMessage: '',
   },
   fr: {
@@ -23,7 +22,6 @@ describe('Provider', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
             locale="fr"
             translations={TRANSLATIONS}
           >
@@ -41,12 +39,11 @@ describe('Provider', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
-            locale="fr"
+            locale="en"
             translations={TRANSLATIONS}
           >
             <LocalizationConsumer>
-              {({ translate }) => translate('github')}
+              {({ translate }) => translate('name')}
             </LocalizationConsumer>
           </LocalizationProvider>
         )
@@ -59,7 +56,6 @@ describe('Provider', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
             locale="fr"
           >
             <LocalizationConsumer>
@@ -72,34 +68,10 @@ describe('Provider', () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it('provides translation for fallback locale', () => {
-      const tree = renderer
-        .create(
-          <LocalizationProvider
-            defaultLocale="en"
-            locale="fr"
-            translations={TRANSLATIONS}
-          >
-            <LocalizationConsumer>
-              {({ translate }) => (
-                <div>
-                  <span>{translate('name')}</span>
-                  <span>{translate('surname')}</span>
-                </div>
-              )}
-            </LocalizationConsumer>
-          </LocalizationProvider>
-        )
-        .toJSON();
-
-        expect(tree).toMatchSnapshot();
-    });
-
     it('provides translation for empty message', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
             locale="en"
             translations={TRANSLATIONS}
           >
@@ -121,7 +93,6 @@ describe('Provider', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
             locale="en"
             translations={TRANSLATIONS}
           >
@@ -157,7 +128,6 @@ describe('Provider', () => {
       const tree = renderer
         .create(
           <LocalizationProvider
-            defaultLocale="en"
             locale="fr"
             translations={TRANSLATIONS}
           >

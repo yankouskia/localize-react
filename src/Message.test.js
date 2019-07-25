@@ -14,6 +14,7 @@ describe('Message', () => {
     const tree = renderer
       .create(
         <LocalizationProvider
+          locale="en"
           translations={TRANSLATIONS}
         >
           <Message descriptor="name" />

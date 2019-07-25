@@ -8,9 +8,9 @@
 
 ## Motivation
 
-Creating really simple lightweight library for localization in React applications, which is built on top of new [React Context Api](https://reactjs.org/docs/context.html)
+Creating really simple lightweight library for localization in React applications without any dependencies, which is built on top of new [React Context Api](https://reactjs.org/docs/context.html)
 
-Library has just **3.8KB** gzipped size
+Library has just **3.9KB** gzipped size
 
 
 ## Installation
@@ -33,8 +33,7 @@ yarn add localize-react
 
 `LocalizationProvider` is used to provide data for translations into React context. The root application component should be wrapped into `LocalizationProvider`. Component has the next props:
 - `children` - children to render
-- `defaultLocale` - locale for fallback, if translation is not provided for specified locale
-- `locale` - locale to be used for translations
+- `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ descriptor: translations }`
 - `translations` - object with translations
 
 Example:
@@ -52,7 +51,6 @@ const TRANSLATIONS = {
 
 const App = () => (
   <LocalizationProvider
-    defaultLocale="en"
     locale="en"
     translations={TRANSLATIONS}
   >
@@ -85,7 +83,6 @@ const TRANSLATIONS = {
 
 const App = () => (
   <LocalizationProvider
-    defaultLocale="en"
     locale="en"
     translations={TRANSLATIONS}
   >
@@ -127,7 +124,6 @@ const App = () => {
 
   return (
     <LocalizationProvider
-      defaultLocale="en"
       locale="en"
       translations={TRANSLATIONS}
     >
@@ -159,7 +155,6 @@ Translation.contextType = LocalizationContext;
 const App = () => {
   return (
     <LocalizationProvider
-      defaultLocale="en"
       locale="en"
       translations={TRANSLATIONS}
     >
@@ -170,6 +165,21 @@ const App = () => {
 
 ReactDOM.render(<App />, node); // "Alex" will be rendered
 ```
+
+### locale
+Locale could be passed in short or long option.
+
+
+Valid examples:
+
+```
+en-us
+EN_US
+en
+eN-uS
+```
+
+If there is no exact match in translations, then the value of locale will be sanitized and formatted to **lower_case_separate_by_underscore**. Make sure you provide translations object with keys in this format. If translations for long locale will not be found, and translations will be found for shorten alternative - that version will be used
 
 ## Restriction
 
