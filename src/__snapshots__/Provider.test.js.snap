@@ -18,6 +18,14 @@ exports[`Provider LocalizationConsumer provides nested key translation without l
 </div>
 `;
 
+exports[`Provider LocalizationConsumer provides translation for empty key as the same key 1`] = `
+<div>
+  <span>
+    
+  </span>
+</div>
+`;
+
 exports[`Provider LocalizationConsumer provides translation for empty message 1`] = `
 <div>
   <span>
