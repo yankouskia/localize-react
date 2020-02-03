@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`helpers buildTranslation builds simple translation with empty values 1`] = `"Hello {{world}}"`;
+
+exports[`helpers buildTranslation builds simple translation with no values 1`] = `"Hello {{world}}"`;
+
+exports[`helpers buildTranslation builds translation with multiple values 1`] = `"Hello, my name is Alex. I am 25"`;
+
+exports[`helpers buildTranslation builds translation with no templates inside 1`] = `"Hello"`;
+
 exports[`helpers sanitizeLocale returns null is locale is not specified 1`] = `null`;
 
 exports[`helpers sanitizeLocale returns the lowercase underscore locale if original was not found 1`] = `"en_ca"`;
@@ -9,3 +17,42 @@ exports[`helpers sanitizeLocale returns the original and makes warning if no mat
 exports[`helpers sanitizeLocale returns the same locale is that is defined in translations 1`] = `"En-uS"`;
 
 exports[`helpers sanitizeLocale returns the shorten locale if original was not found 1`] = `"en"`;
+
+exports[`helpers transformToPairs creates pair of template - value 1`] = `
+Array [
+  Array [
+    "{{name}}",
+    "Alex",
+  ],
+]
+`;
+
+exports[`helpers transformToPairs creates pairs of template - value 1`] = `
+Array [
+  Array [
+    "{{name}}",
+    "Alex",
+  ],
+  Array [
+    "{{age}}",
+    25,
+  ],
+]
+`;
+
+exports[`helpers transformToPairs creates pairs with same value if no correspondent value found 1`] = `
+Array [
+  Array [
+    "{{name}}",
+    "Alex",
+  ],
+  Array [
+    "{{age}}",
+    25,
+  ],
+  Array [
+    "{{not_found}}",
+    "{{not_found}}",
+  ],
+]
+`;
