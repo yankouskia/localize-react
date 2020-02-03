@@ -34,6 +34,22 @@ exports[`Provider LocalizationConsumer provides translation for empty message 1`
 </div>
 `;
 
+exports[`Provider LocalizationConsumer provides translation for key with values 1`] = `
+<div>
+  <span>
+    Hello Alex
+  </span>
+</div>
+`;
+
+exports[`Provider LocalizationConsumer provides translation for not found key with values 1`] = `
+<div>
+  <span>
+    Hello, Alex
+  </span>
+</div>
+`;
+
 exports[`Provider LocalizationConsumer provides translation for set locale 1`] = `"Alex"`;
 
 exports[`Provider LocalizationConsumer provides translation the same as key for unexisting key 1`] = `

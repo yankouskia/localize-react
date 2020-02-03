@@ -1,6 +1,8 @@
 let TRANSLATION_CACHE = {};
 
-export const WARNING_MESSAGE = 'localize-react: There are no translations for specified locale';
+export const NO_TRANSLATION_WARNING_MESSAGE = '[LOCALIZE-REACT]: There are no translations for specified locale';
+export const NO_TEMPLATE_VALUE_MESSAGE = '[LOCALIZE-REACT] Looks like template is being used, but no value passed for ';
+export const PARSE_TEMPLATE_REGEXP = /{{([^{]+[^}])}}/g;
 
 export function sanitizeLocale(locale, translations) {
   if (!locale) {
@@ -21,16 +23,17 @@ export function sanitizeLocale(locale, translations) {
     return shortenLocale;
   }
 
-  console.warn(WARNING_MESSAGE, locale);
+  console.warn(NO_TRANSLATION_WARNING_MESSAGE, locale);
   return locale;
 }
 
 export function memoize(fn) {
-  return function memoizedFn(input) {
-    if (TRANSLATION_CACHE[input]) return TRANSLATION_CACHE[input];
+  return function memoizedFn(input, values) {
+    const cacheKey = values ? JSON.stringify(values, null, '') + input : input;
+    if (TRANSLATION_CACHE[cacheKey]) return TRANSLATION_CACHE[cacheKey];
 
-    const output = fn(input);
-    TRANSLATION_CACHE[input] = output;
+    const output = fn(input, values);
+    TRANSLATION_CACHE[cacheKey] = output;
 
     return output;
   }
@@ -38,4 +41,38 @@ export function memoize(fn) {
 
 export function clearCache() {
   TRANSLATION_CACHE = {};
+}
+
+export function transformToPairs(templates, values) {
+  const valuesKeys = Object.keys(values);
+
+  return templates.map(tpl => {
+    const correpondentKey = Array.prototype.slice.call(tpl, 2, -2).join('');
+    const rightKey = valuesKeys.find(valueKey => valueKey === correpondentKey);
+
+    if (!rightKey) {
+      console.warn(NO_TEMPLATE_VALUE_MESSAGE, tpl);
+      return [tpl, tpl];
+    }
+
+    return [tpl, values[rightKey]];
+  });
+}
+
+export function buildTranslation(str, values) {
+  if (!values) return str;
+
+  const keys = Object.keys(values);
+  if (keys.length === 0) return str;
+
+  const templates = str.match(PARSE_TEMPLATE_REGEXP);
+  if (!templates || templates.length === 0) return str;
+
+  const templatePairs = transformToPairs(templates, values);
+
+  return templatePairs.reduce((result, templatePair) => {
+    const replaceRegexp = new RegExp(templatePair[0], 'gi');
+
+    return result.replace(replaceRegexp, templatePair[1]);
+  }, str);
 }

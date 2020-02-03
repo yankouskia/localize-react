@@ -67,6 +67,7 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 
 `Message` component is used to provide translated message by specified descriptor, which should be passed via props. Component has the next props:
 - `descriptor` - translation key (descriptor)
+- `values` - possible values to use with template string (Template should be passed in next format: `Hello {{name}}`)
 
 Example:
 
@@ -93,9 +94,48 @@ const App = () => (
 ReactDOM.render(<App />, node); // "Alex" will be rendered
 ```
 
+To use with templates:
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { LocalizationProvider, Message } from 'localize-react';
+
+const TRANSLATIONS = {
+  en: {
+    name: 'Hello, {{name}}!',
+  },
+};
+
+const App = () => (
+  <LocalizationProvider
+    locale="en"
+    translations={TRANSLATIONS}
+  >
+    <Message descriptor="name" values={{ name: 'Alex' }} />
+  </LocalizationProvider>
+);
+
+ReactDOM.render(<App />, node); // "Alex" will be rendered
+```
+
 ### useLocalize
 
 `useLocalize` hook is used to provide localization context, which can be used for translation.
+
+### Templates
+
+It's possible to use templates inside translation strings with highlighting templates using double curly braces. To pass correpospondent values:
+
+```js
+  const translation = translate('My name is {{name}}. I am {{age}}', { name: 'Alex', age: 25 });
+```
+
+Or with React component:
+
+```js
+  <Message descriptor="My name is {{name}}. I am {{age}}" values={{ name: 'Alex', age: 25 }} />
+```
 
 **NOTE**
 

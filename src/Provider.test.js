@@ -20,6 +20,7 @@ const TRANSLATIONS = {
   },
   fr: {
     github: 'https://github.com/yankouskia',
+    templateHello: 'Hello {{name}}',
   },
 };
 
@@ -128,6 +129,48 @@ describe('Provider', () => {
               {({ translate }) => (
                 <div>
                   <span>{translate('')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('provides translation for not found key with values', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="en"
+            translations={TRANSLATIONS}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('Hello, {{name}}', { name: 'Alex' })}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+    it('provides translation for key with values', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="fr"
+            translations={TRANSLATIONS}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('templateHello', { name: 'Alex' })}</span>
                 </div>
               )}
             </LocalizationConsumer>
