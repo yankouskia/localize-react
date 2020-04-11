@@ -242,6 +242,86 @@ describe('Provider', () => {
 
         expect(tree).toMatchSnapshot();
     });
+
+    it('clears cache after props update', () => {
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="a"
+            translations={{ a: { b: 'A' }, c: { b: 'C' } }}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('b')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        );
+
+        renderer.act(() => {
+          tree.update(
+            <LocalizationProvider
+              locale="c"
+              translations={{ a: { b: 'A' }, c: { b: 'C' } }}
+            >
+              <LocalizationConsumer>
+                {({ translate }) => (
+                  <div>
+                    <span>{translate('b')}</span>
+                  </div>
+                )}
+              </LocalizationConsumer>
+            </LocalizationProvider>
+          );
+        });
+
+        expect(tree.toJSON()).toMatchSnapshot();
+    });
+  });
+
+  it('calculate translation each time when disableCache is passed', () => {
+    const translations = { a: { b: 'translation' } };
+
+    const tree = renderer
+      .create(
+        <LocalizationProvider
+            disableCache
+            translations={translations}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('a.b')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+      );
+
+      expect(tree.toJSON()).toMatchSnapshot();
+
+      translations.a.b = 'Changed Translation';
+
+      renderer.act(() => {
+        tree.update(
+          <LocalizationProvider
+            disableCache
+            translations={translations}
+          >
+            <LocalizationConsumer>
+              {({ translate }) => (
+                <div>
+                  <span>{translate('a.b')}</span>
+                </div>
+              )}
+            </LocalizationConsumer>
+          </LocalizationProvider>
+        );
+      });
+
+      expect(tree.toJSON()).toMatchSnapshot();
   });
 
   describe('LocalizationContext', () => {
