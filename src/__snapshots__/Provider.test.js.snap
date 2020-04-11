@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Provider LocalizationConsumer clears cache after props update 1`] = `
+<div>
+  <span>
+    C
+  </span>
+</div>
+`;
+
 exports[`Provider LocalizationConsumer provides empty object translations by default 1`] = `"any key"`;
 
 exports[`Provider LocalizationConsumer provides key translation if nested key was not found 1`] = `
@@ -75,3 +83,19 @@ exports[`Provider LocalizationContext can be used in classes 1`] = `
 `;
 
 exports[`Provider LocalizationProvider renders children 1`] = `"children as a text"`;
+
+exports[`Provider calculate translation each time when disableCache is passed 1`] = `
+<div>
+  <span>
+    translation
+  </span>
+</div>
+`;
+
+exports[`Provider calculate translation each time when disableCache is passed 2`] = `
+<div>
+  <span>
+    Changed Translation
+  </span>
+</div>
+`;

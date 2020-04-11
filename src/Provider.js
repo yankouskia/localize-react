@@ -1,11 +1,20 @@
-import React from 'react';
-import { sanitizeLocale, memoize, buildTranslation } from './helpers';
+import React, { useEffect } from 'react';
+import {
+  buildTranslation,
+  clearCache,
+  memoize,
+  sanitizeLocale,
+} from './helpers';
 
 export const LocalizationContext = React.createContext();
 
-export function LocalizationProvider({ children, locale, translations = {} }) {
+export function LocalizationProvider({ children, disableCache, locale, translations = {} }) {
   const sanitizedLocale = sanitizeLocale(locale, translations);
   const pureTranslations = sanitizedLocale ? translations[sanitizedLocale] : translations;
+
+  useEffect(() => {
+    clearCache();
+  }, [locale, translations]);
 
   function pureTranslateFn(key, values) {
     if (!pureTranslations || !key) return key;
@@ -31,7 +40,7 @@ export function LocalizationProvider({ children, locale, translations = {} }) {
     return typeof finalValue === 'string' ? buildTranslation(finalValue, values) : buildTranslation(key, values);
   }
 
-  const translate = memoize(pureTranslateFn);
+  const translate = disableCache ? pureTranslateFn : memoize(pureTranslateFn);
 
   return (
     <LocalizationContext.Provider value={{ locale, translate, translations }}>

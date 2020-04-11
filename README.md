@@ -35,6 +35,7 @@ yarn add localize-react
 - `children` - children to render
 - `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ descriptor: translations }`
 - `translations` - object with translations
+- `disableCache` - boolean variable to disable cache on runtime (`false` by default). Setting this to `true` could affect runtime performance, but could be useful for development.
 
 Example:
 
@@ -51,6 +52,7 @@ const TRANSLATIONS = {
 
 const App = () => (
   <LocalizationProvider
+    disableCache
     locale="en"
     translations={TRANSLATIONS}
   >
