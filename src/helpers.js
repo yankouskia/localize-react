@@ -47,8 +47,8 @@ export function transformToPairs(templates, values) {
   const valuesKeys = Object.keys(values);
 
   return templates.map(tpl => {
-    const correpondentKey = Array.prototype.slice.call(tpl, 2, -2).join('');
-    const rightKey = valuesKeys.find(valueKey => valueKey === correpondentKey);
+    const correspondentKey = Array.prototype.slice.call(tpl, 2, -2).join('');
+    const rightKey = valuesKeys.find(valueKey => valueKey === correspondentKey);
 
     if (!rightKey) {
       console.warn(NO_TEMPLATE_VALUE_MESSAGE, tpl);
