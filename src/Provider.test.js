@@ -351,6 +351,34 @@ describe('Provider', () => {
 
         expect(tree).toMatchSnapshot();
     });
-  })
+  });
 
+  describe('Default message', () => {
+    it('should render default message if no translation exists', () => {
+      class Translation extends React.PureComponent {
+        render() {
+          return (
+            <span>
+              {this.context.translate('not.existing', null, 'Default Message')}
+            </span>
+          )
+        }
+      }
+
+      Translation.contextType = LocalizationContext;
+
+      const tree = renderer
+        .create(
+          <LocalizationProvider
+            locale="fr"
+            translations={{ fr: {} }}
+          >
+            <Translation />
+          </LocalizationProvider>
+        )
+        .toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+  });
 });

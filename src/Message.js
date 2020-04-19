@@ -1,7 +1,6 @@
 import { useLocalize } from './use-localize';
 
-export function Message({ descriptor, values }) {
+export function Message({ defaultMessage, descriptor, values }) {
   const { translate } = useLocalize();
-
-  return translate(descriptor, values);
+  return translate(descriptor, values, defaultMessage);
 }

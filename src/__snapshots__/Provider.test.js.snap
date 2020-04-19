@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Provider Default message should render default message if no translation exists 1`] = `
+<span>
+  Default Message
+</span>
+`;
+
 exports[`Provider LocalizationConsumer clears cache after props update 1`] = `
 <div>
   <span>
@@ -13,7 +19,7 @@ exports[`Provider LocalizationConsumer provides empty object translations by def
 exports[`Provider LocalizationConsumer provides key translation if nested key was not found 1`] = `
 <div>
   <span>
-    n.i.c.k.not.found
+    
   </span>
 </div>
 `;
@@ -53,7 +59,7 @@ exports[`Provider LocalizationConsumer provides translation for key with values 
 exports[`Provider LocalizationConsumer provides translation for not found key with values 1`] = `
 <div>
   <span>
-    Hello, Alex
+    
   </span>
 </div>
 `;
@@ -63,7 +69,7 @@ exports[`Provider LocalizationConsumer provides translation for set locale 1`] =
 exports[`Provider LocalizationConsumer provides translation the same as key for unexisting key 1`] = `
 <div>
   <span>
-    unexistingKey
+    
   </span>
 </div>
 `;
