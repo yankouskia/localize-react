@@ -33,7 +33,7 @@ yarn add localize-react
 
 `LocalizationProvider` is used to provide data for translations into React context. The root application component should be wrapped into `LocalizationProvider`. Component has the next props:
 - `children` - children to render
-- `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ descriptor: translations }`
+- `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ key: translations }`
 - `translations` - object with translations
 - `disableCache` - boolean variable to disable cache on runtime (`false` by default). Setting this to `true` could affect runtime performance, but could be useful for development.
 
@@ -67,8 +67,9 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 
 ### Message
 
-`Message` component is used to provide translated message by specified descriptor, which should be passed via props. Component has the next props:
+`Message` component is used to provide translated message by specified key, which should be passed via props. Component has the next props:
 - `descriptor` - translation key (descriptor)
+- `defaultMessage` - message to be used in case translation is not provided (values object are applied to default message as well)
 - `values` - possible values to use with template string (Template should be passed in next format: `Hello {{name}}`)
 
 Example:
@@ -115,6 +116,33 @@ const App = () => (
     translations={TRANSLATIONS}
   >
     <Message descriptor="name" values={{ name: 'Alex' }} />
+  </LocalizationProvider>
+);
+
+ReactDOM.render(<App />, node); // "Alex" will be rendered
+```
+
+To use with default message:
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { LocalizationProvider, Message } from 'localize-react';
+
+const TRANSLATIONS = {
+  en: {},
+};
+
+const App = () => (
+  <LocalizationProvider
+    locale="en"
+    translations={TRANSLATIONS}
+  >
+    <Message
+      descriptor="name"
+      defaultMessage="Hello, {{name}}!"
+      values={{ name: 'Alex' }}
+    />
   </LocalizationProvider>
 );
 
