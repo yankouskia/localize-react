@@ -16,9 +16,10 @@ export function LocalizationProvider({ children, disableCache, locale, translati
     clearCache();
   }, [locale, translations]);
 
-  function pureTranslateFn(key, values) {
-    if (!pureTranslations || !key) return key;
+  function pureTranslateFn(key, values, defaultMessage) {
+    if (!pureTranslations || !key) return defaultMessage || key;
 
+    const fallbackTranslation = typeof defaultMessage === 'string' ? defaultMessage : key;
     const possibleValue = pureTranslations[key];
 
     if (typeof possibleValue === 'string') {
@@ -28,7 +29,7 @@ export function LocalizationProvider({ children, disableCache, locale, translati
     }
 
     const complexKeyArray = key.split('.');
-    if (complexKeyArray.length === 1) return buildTranslation(key, values);
+    if (complexKeyArray.length === 1) return buildTranslation(fallbackTranslation, values);
 
     let finalValue = pureTranslations[complexKeyArray[0]];
     for (let i = 1; i < complexKeyArray.length; i++) {
@@ -37,7 +38,7 @@ export function LocalizationProvider({ children, disableCache, locale, translati
       }
     }
 
-    return typeof finalValue === 'string' ? buildTranslation(finalValue, values) : buildTranslation(key, values);
+    return typeof finalValue === 'string' ? buildTranslation(finalValue, values) : buildTranslation(fallbackTranslation, values);
   }
 
   const translate = disableCache ? pureTranslateFn : memoize(pureTranslateFn);

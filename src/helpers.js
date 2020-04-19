@@ -28,11 +28,11 @@ export function sanitizeLocale(locale, translations) {
 }
 
 export function memoize(fn) {
-  return function memoizedFn(input, values) {
-    const cacheKey = values ? JSON.stringify(values, null, '') + input : input;
+  return function memoizedFn(input, values, defaultMessage = '') {
+    const cacheKey = values ? JSON.stringify(values, null, '') + input + defaultMessage : input + defaultMessage;
     if (TRANSLATION_CACHE[cacheKey]) return TRANSLATION_CACHE[cacheKey];
 
-    const output = fn(input, values);
+    const output = fn(input, values, defaultMessage);
     TRANSLATION_CACHE[cacheKey] = output;
 
     return output;
