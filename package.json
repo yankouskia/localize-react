@@ -1,6 +1,6 @@
 {
   "name": "localize-react",
-  "version": "1.6.0",
+  "version": "1.5.0",
   "description": "React Localization Library",
   "main": "dist/localize-react.js",
   "repository": "git@github.com:yankouskia/localize-react.git",
@@ -33,6 +33,5 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "codecov": "codecov -t 8365e97e-7298-4a00-ad32-740d44db89e5 -f coverage/*.json"
-  },
-  "types": "./index.d.ts"
+  }
 }
