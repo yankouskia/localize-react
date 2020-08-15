@@ -20,8 +20,8 @@ interface LocalizationProviderProps {
 
 interface MessageComponentProps {
   descriptor: string;
-  values: Record<string, unknown>;
-  defaultMessage: string;
+  values?: Record<string, unknown>;
+  defaultMessage?: string;
 }
 
 type UseLocalizeHook = () => LocalizationContextValue;
