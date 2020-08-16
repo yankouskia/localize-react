@@ -14,7 +14,7 @@ interface LocalizationContextValue {
 }
 
 interface LocalizationProviderProps {
-  locale: string;
+  locale?: string;
   disableCache?: boolean;
   translations: Record<string, unknown>;
 }
