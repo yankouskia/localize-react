@@ -180,7 +180,7 @@ function Test() {
     <>
       <button onClick={() => setLocale("en")}>English</button>
       <button onClick={() => setLocale("ja")}>Japanese</button>
-      <p>{translate('hello')}</p>
+      <p>{translate('msg')}</p>
     </>
   );
 }
