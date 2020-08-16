@@ -10,6 +10,7 @@ interface LocalizationContextValue {
   locale: string;
   translate: Translate;
   translations: Record<string, unknown>;
+  setLocale: (locale: string) => {};
 }
 
 interface LocalizationProviderProps {

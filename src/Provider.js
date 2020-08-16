@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   buildTranslation,
   clearCache,
@@ -9,12 +9,21 @@ import {
 export const LocalizationContext = React.createContext();
 
 export function LocalizationProvider({ children, disableCache, locale, translations = {} }) {
-  const sanitizedLocale = sanitizeLocale(locale, translations);
+
+  const [currentLocale, setLocale] = useState(locale);
+
+  useEffect(() => {
+    if (currentLocale !== locale) {
+      setLocale(locale)
+    }
+  }, [locale]);
+
+  const sanitizedLocale = sanitizeLocale(currentLocale, translations);
   const pureTranslations = sanitizedLocale ? translations[sanitizedLocale] : translations;
 
   useEffect(() => {
     clearCache();
-  }, [locale, translations]);
+  }, [currentLocale, translations]);
 
   function pureTranslateFn(key, values, defaultMessage) {
     if (!pureTranslations || !key) return defaultMessage || key;
@@ -44,7 +53,7 @@ export function LocalizationProvider({ children, disableCache, locale, translati
   const translate = disableCache ? pureTranslateFn : memoize(pureTranslateFn);
 
   return (
-    <LocalizationContext.Provider value={{ locale, translate, translations }}>
+    <LocalizationContext.Provider value={{ locale: currentLocale, translate, translations, setLocale }}>
       {children}
     </LocalizationContext.Provider>
   );

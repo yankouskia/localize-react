@@ -153,20 +153,6 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 
 `useLocalize` hook is used to provide localization context, which can be used for translation.
 
-### Templates
-
-It's possible to use templates inside translation strings with highlighting templates using double curly braces. To pass correpospondent values:
-
-```js
-  const translation = translate('My name is {{name}}. I am {{age}}', { name: 'Alex', age: 25 });
-```
-
-Or with React component:
-
-```js
-  <Message descriptor="My name is {{name}}. I am {{age}}" values={{ name: 'Alex', age: 25 }} />
-```
-
 **NOTE**
 
 Keep in mind, that hooks are not supported in class components!
@@ -180,14 +166,23 @@ import { LocalizationProvider, useLocalize } from 'localize-react';
 
 const TRANSLATIONS = {
   en: {
-    name: 'Alex',
+    msg: 'English'
   },
+  ja: {
+    msg: 'Japanese'
+  }
 };
 
 function Test() {
-  const { translate } = useLocalize();
+  const { translate, setLocale } = useLocalize();
 
-  return translate('name');
+  return (
+    <>
+      <button onClick={() => setLocale("en")}>English</button>
+      <button onClick={() => setLocale("ja")}>Japanese</button>
+      <p>{translate('hello')}</p>
+    </>
+  );
 }
 
 const App = () => {
@@ -203,6 +198,20 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, node); // "Alex" will be rendered
+```
+
+### Templates
+
+It's possible to use templates inside translation strings with highlighting templates using double curly braces. To pass correpospondent values:
+
+```js
+  const translation = translate('My name is {{name}}. I am {{age}}', { name: 'Alex', age: 25 });
+```
+
+Or with React component:
+
+```js
+  <Message descriptor="My name is {{name}}. I am {{age}}" values={{ name: 'Alex', age: 25 }} />
 ```
 
 ### contextType

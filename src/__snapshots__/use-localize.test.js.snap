@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Message translates from key to text 1`] = `"Alex"`;
+exports[`Localize hook changes locale 1`] = `"Japanese"`;
+
+exports[`Localize hook translates from key to text 1`] = `"Alex"`;
