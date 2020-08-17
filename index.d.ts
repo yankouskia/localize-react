@@ -13,15 +13,15 @@ interface LocalizationContextValue {
 }
 
 interface LocalizationProviderProps {
-  locale: string;
+  locale?: string;
   disableCache?: boolean;
   translations: Record<string, unknown>;
 }
 
 interface MessageComponentProps {
   descriptor: string;
-  values: Record<string, unknown>;
-  defaultMessage: string;
+  values?: Record<string, unknown>;
+  defaultMessage?: string;
 }
 
 type UseLocalizeHook = () => LocalizationContextValue;
