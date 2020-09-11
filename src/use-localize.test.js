@@ -7,7 +7,7 @@ const TRANSLATIONS = {
   name: 'Alex',
 };
 
-describe('Message', () => {
+describe('Localize hook', () => {
   it('translates from key to text', () => {
     function Test() {
       const { translate } = useLocalize();
