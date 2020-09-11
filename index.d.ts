@@ -1,27 +1,33 @@
 import { Context, ComponentType, Consumer, PropsWithChildren } from 'react';
 
+interface Translations {
+  [key: string]: string | number | Translations;
+}
+
+type TemplateValues = Record<string, string | number>;
+
 type Translate = (
   key: string,
-  values?: Record<string, unknown>,
+  values?: TemplateValues,
   defaultMessage?: string
 ) => string;
 
 interface LocalizationContextValue {
   locale: string;
   translate: Translate;
-  translations: Record<string, unknown>;
+  translations: Translations;
 }
 
 interface LocalizationProviderProps {
-  locale: string;
+  locale?: string;
   disableCache?: boolean;
-  translations: Record<string, unknown>;
+  translations: Translations;
 }
 
 interface MessageComponentProps {
   descriptor: string;
-  values: Record<string, unknown>;
-  defaultMessage: string;
+  values?: TemplateValues;
+  defaultMessage?: string;
 }
 
 type UseLocalizeHook = () => LocalizationContextValue;
