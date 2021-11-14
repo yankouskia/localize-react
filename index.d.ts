@@ -1,4 +1,4 @@
-import { Context, ComponentType, Consumer, PropsWithChildren } from 'react';
+import { Context, ComponentType, Consumer, PropsWithChildren } from "react";
 
 interface Translations {
   [key: string]: string | number | Translations;
@@ -22,6 +22,7 @@ interface LocalizationProviderProps {
   locale?: string;
   disableCache?: boolean;
   translations: Translations;
+  defaultLocale?: string;
 }
 
 interface MessageComponentProps {
@@ -40,6 +41,8 @@ export const Message: MessageComponent;
 
 export const LocalizationContext: Context<LocalizationContextValue>;
 
-export const LocalizationProvider: ComponentType<PropsWithChildren<LocalizationProviderProps>>;
+export const LocalizationProvider: ComponentType<
+  PropsWithChildren<LocalizationProviderProps>
+>;
 
 export const LocalizationConsumer: Consumer<LocalizationContextValue>;
