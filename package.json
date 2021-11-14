@@ -1,6 +1,6 @@
 {
   "name": "@borodutch-labs/localize-react",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "React Localization Library",
   "main": "dist/localize-react.js",
   "repository": "git@github.com:yankouskia/localize-react.git",
