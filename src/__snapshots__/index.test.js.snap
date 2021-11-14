@@ -5,7 +5,7 @@ Array [
   "LocalizationConsumer",
   "LocalizationContext",
   "LocalizationProvider",
-  "useLocalize",
   "Message",
+  "useLocalize",
 ]
 `;
