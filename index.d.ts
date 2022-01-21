@@ -1,7 +1,7 @@
 import { Context, ComponentType, Consumer, PropsWithChildren } from "react";
 
 interface Translations {
-  [key: string]: string | number | Translations;
+  [key: string]: string | number | Translations | Translations[];
 }
 
 type TemplateValues = Record<string, string | number>;
