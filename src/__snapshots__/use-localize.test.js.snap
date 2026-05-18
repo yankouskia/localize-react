@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Localize hook translates from key to text 1`] = `"Alex"`;
