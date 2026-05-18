@@ -1,0 +1,58 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(deps)",
+    ":dependencyDashboard",
+    ":maintainLockFilesWeekly",
+    ":automergeMinor",
+    ":automergePatch",
+    "group:allNonMajor",
+    "schedule:weekly"
+  ],
+  "timezone": "Etc/UTC",
+  "rangeStrategy": "bump",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 5am on monday"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
+    },
+    {
+      "description": "React peer must stay broad; ignore major bumps that would tighten the peer range.",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["peer-deps"]
+    },
+    {
+      "description": "Always require manual review for breaking ESLint / TS toolchain bumps.",
+      "matchPackageNames": [
+        "typescript",
+        "eslint",
+        "typescript-eslint",
+        "vitest",
+        "tsup",
+        "@vitest/coverage-v8"
+      ],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["toolchain"]
+    },
+    {
+      "description": "Pin GitHub Actions to commit SHAs but display the human tag.",
+      "matchManagers": ["github-actions"],
+      "extends": [":pinDigestVersions"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"]
+  },
+  "ignorePaths": ["**/node_modules/**", "**/examples/**"]
+}
