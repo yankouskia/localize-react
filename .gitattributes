@@ -1,0 +1,32 @@
+# Auto-detect text files and normalize line endings to LF on commit.
+* text=auto eol=lf
+
+# Lockfiles are linguist-generated to avoid bloating PR diff stats.
+pnpm-lock.yaml -diff linguist-generated=true
+package-lock.json -diff linguist-generated=true
+
+# Snapshots / generated artifacts.
+dist/** linguist-generated=true
+docs/api/** linguist-generated=true
+CHANGELOG.md merge=union
+
+# Force LF on shell-relevant files.
+*.sh text eol=lf
+*.cjs text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+# Common binaries stay binary.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
