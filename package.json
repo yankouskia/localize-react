@@ -1,38 +1,84 @@
 {
   "name": "localize-react",
-  "version": "1.7.1",
-  "description": "React Localization Library",
-  "main": "dist/localize-react.js",
-  "repository": "git@github.com:yankouskia/localize-react.git",
-  "author": "yankouskia <aleksandr.yankovskiy@gmail.com>",
+  "version": "2.0.0-next.0",
+  "description": "Tiny, type-safe React i18n library built on Context and hooks — dual ESM + CJS, zero runtime deps.",
+  "keywords": [
+    "react",
+    "i18n",
+    "l10n",
+    "localization",
+    "internationalization",
+    "translation",
+    "context",
+    "hooks",
+    "typescript"
+  ],
+  "homepage": "https://github.com/yankouskia/localize-react#readme",
+  "bugs": {
+    "url": "https://github.com/yankouskia/localize-react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yankouskia/localize-react.git"
+  },
   "license": "MIT",
+  "author": {
+    "name": "Aliaksandr Yankouski",
+    "email": "aleksandr.yankovskiy@gmail.com",
+    "url": "https://github.com/yankouskia"
+  },
+  "funding": "https://github.com/sponsors/yankouskia",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf dist coverage .tsbuildinfo",
+    "dev": "tsup --watch",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepublishOnly": "pnpm clean && pnpm build && pnpm test run && pnpm typecheck && pnpm pack:check",
+    "pack:check": "publint --strict && attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "release": "changeset publish",
+    "version": "changeset version",
+    "prepare": "simple-git-hooks || true"
+  },
   "peerDependencies": {
     "react": ">=16.8.0"
   },
-  "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-object-assign": "^7.2.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "babel-jest": "^24.8.0",
-    "babel-loader": "^8.0.6",
-    "codecov": "^3.5.0",
-    "jest": "^24.8.0",
-    "react": "^16.8.6",
-    "react-test-renderer": "^16.8.6",
-    "rollup": "^1.17.0",
-    "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.0.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-uglify": "^6.0.2"
+  "engines": {
+    "node": ">=20.19.0"
   },
-  "scripts": {
-    "build": "NODE_ENV=production rollup -c",
-    "test": "jest",
-    "coverage": "jest --coverage",
-    "codecov": "codecov -t 8365e97e-7298-4a00-ad32-740d44db89e5 -f coverage/*.json"
-  },
-  "types": "./index.d.ts"
+  "packageManager": "pnpm@9.15.4",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
