@@ -58,7 +58,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.node == '22'
-        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a # v5.0.7
+        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
