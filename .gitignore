@@ -3,6 +3,8 @@ dist/
 build/
 docs/api/
 site/
+website/build/
+website/.docusaurus/
 .tsup/
 .tsbuildinfo
 *.tsbuildinfo

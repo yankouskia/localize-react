@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="lz-fav" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7d5cf0"/>
+      <stop offset="0.55" stop-color="#43bccd"/>
+      <stop offset="1" stop-color="#f8a23c"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#lz-fav)"/>
+  <g fill="#ffffff">
+    <path d="M18 17h6v23h13v6H18z"/>
+    <circle cx="44" cy="22" r="3.5"/>
+    <rect x="41" y="29" width="6" height="17"/>
+  </g>
+</svg>
