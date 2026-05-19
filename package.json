@@ -33,7 +33,7 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.mts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
@@ -61,13 +61,16 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepublishOnly": "pnpm clean && pnpm build && pnpm test run && pnpm typecheck && pnpm pack:check",
-    "pack:check": "publint --strict && attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "pack:check": "publint --strict",
+    "pack:check:types": "attw --pack . --ignore-rules cjs-resolves-to-esm",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "release": "changeset publish",
     "version": "changeset version",
+    "size": "size-limit",
+    "docs": "typedoc",
     "prepare": "simple-git-hooks || true"
   },
   "peerDependencies": {
@@ -86,10 +89,41 @@
       "tmp": ">=0.2.4"
     }
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "size-limit": [
+    {
+      "name": "ESM (full library)",
+      "path": "dist/index.mjs",
+      "limit": "2 kB",
+      "ignore": [
+        "react"
+      ]
+    },
+    {
+      "name": "CJS (full library)",
+      "path": "dist/index.cjs",
+      "limit": "2.5 kB",
+      "ignore": [
+        "react"
+      ]
+    }
+  ],
   "devDependencies": {
-    "@arethetypeswrong/cli": "0.17",
+    "@arethetypeswrong/cli": "~0.18.2",
     "@changesets/cli": "2.28",
     "@eslint/js": "9",
+    "@microsoft/api-extractor": "7",
     "@size-limit/preset-small-lib": "11",
     "@testing-library/jest-dom": "6",
     "@testing-library/react": "16",

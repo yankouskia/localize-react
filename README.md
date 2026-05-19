@@ -12,7 +12,6 @@ Creating really simple lightweight library for localization in React application
 
 Library has just **737 Bytes** gzipped size
 
-
 ## Installation
 
 npm:
@@ -32,6 +31,7 @@ yarn add localize-react
 ### Provider & Consumer
 
 `LocalizationProvider` is used to provide data for translations into React context. The root application component should be wrapped into `LocalizationProvider`. Component has the next props:
+
 - `children` - children to render
 - `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ key: translations }`
 - `translations` - object with translations
@@ -51,11 +51,7 @@ const TRANSLATIONS = {
 };
 
 const App = () => (
-  <LocalizationProvider
-    disableCache
-    locale="en"
-    translations={TRANSLATIONS}
-  >
+  <LocalizationProvider disableCache locale="en" translations={TRANSLATIONS}>
     <LocalizationConsumer>
       {({ translate }) => translate('name')}
     </LocalizationConsumer>
@@ -68,6 +64,7 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 ### Message
 
 `Message` component is used to provide translated message by specified key, which should be passed via props. Component has the next props:
+
 - `descriptor` - translation key (descriptor)
 - `defaultMessage` - message to be used in case translation is not provided (values object are applied to default message as well)
 - `values` - possible values to use with template string (Template should be passed in next format: `Hello {{name}}`)
@@ -86,10 +83,7 @@ const TRANSLATIONS = {
 };
 
 const App = () => (
-  <LocalizationProvider
-    locale="en"
-    translations={TRANSLATIONS}
-  >
+  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
     <Message descriptor="name" />
   </LocalizationProvider>
 );
@@ -111,10 +105,7 @@ const TRANSLATIONS = {
 };
 
 const App = () => (
-  <LocalizationProvider
-    locale="en"
-    translations={TRANSLATIONS}
-  >
+  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
     <Message descriptor="name" values={{ name: 'Alex' }} />
   </LocalizationProvider>
 );
@@ -134,10 +125,7 @@ const TRANSLATIONS = {
 };
 
 const App = () => (
-  <LocalizationProvider
-    locale="en"
-    translations={TRANSLATIONS}
-  >
+  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
     <Message
       descriptor="name"
       defaultMessage="Hello, {{name}}!"
@@ -177,16 +165,12 @@ function Test() {
 }
 
 const App = () => {
-
   return (
-    <LocalizationProvider
-      locale="en"
-      translations={TRANSLATIONS}
-    >
+    <LocalizationProvider locale="en" translations={TRANSLATIONS}>
       <Test />
     </LocalizationProvider>
   );
-}
+};
 
 ReactDOM.render(<App />, node); // "Alex" will be rendered
 ```
@@ -196,13 +180,19 @@ ReactDOM.render(<App />, node); // "Alex" will be rendered
 It's possible to use templates inside translation strings with highlighting templates using double curly braces. To pass correpospondent values:
 
 ```js
-  const translation = translate('My name is {{name}}. I am {{age}}', { name: 'Alex', age: 25 });
+const translation = translate('My name is {{name}}. I am {{age}}', {
+  name: 'Alex',
+  age: 25,
+});
 ```
 
 Or with React component:
 
 ```js
-  <Message descriptor="My name is {{name}}. I am {{age}}" values={{ name: 'Alex', age: 25 }} />
+<Message
+  descriptor="My name is {{name}}. I am {{age}}"
+  values={{ name: 'Alex', age: 25 }}
+/>
 ```
 
 ### contextType
@@ -219,14 +209,9 @@ const TRANSLATIONS = {
   },
 };
 
-
 class Translation extends React.PureComponent {
   render() {
-    return (
-      <span>
-        {this.context.translate('name')}
-      </span>
-    )
+    return <span>{this.context.translate('name')}</span>;
   }
 }
 
@@ -234,21 +219,18 @@ Translation.contextType = LocalizationContext;
 
 const App = () => {
   return (
-    <LocalizationProvider
-      locale="en"
-      translations={TRANSLATIONS}
-    >
+    <LocalizationProvider locale="en" translations={TRANSLATIONS}>
       <Translation />
     </LocalizationProvider>
   );
-}
+};
 
 ReactDOM.render(<App />, node); // "Alex" will be rendered
 ```
 
 ### locale
-Locale could be passed in short or long option.
 
+Locale could be passed in short or long option.
 
 Valid examples:
 
@@ -260,6 +242,7 @@ eN-uS
 ```
 
 ### translations
+
 Translations could be passed in any object form (plain or with deep properties)
 
 Valid examples:

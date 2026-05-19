@@ -46,7 +46,6 @@ export function sanitizeLocale(
   const short = normalized.split('_')[0];
   if (short && typeof translations[short] === 'object') return short;
 
-  // eslint-disable-next-line no-console -- public, documented warning.
   console.warn(NO_TRANSLATION_WARNING_MESSAGE, locale);
   return locale;
 }
@@ -95,13 +94,12 @@ export function clearCache(): void {
 export function transformToPairs(
   templates: readonly string[],
   values: TemplateValues,
-): Array<readonly [string, string | number]> {
+): readonly (readonly [string, string | number])[] {
   return templates.map((token) => {
     const placeholderKey = token.slice(2, -2);
     if (Object.hasOwn(values, placeholderKey)) {
       return [token, values[placeholderKey]!] as const;
     }
-    // eslint-disable-next-line no-console -- public, documented warning.
     console.warn(NO_TEMPLATE_VALUE_MESSAGE, token);
     return [token, token] as const;
   });
@@ -125,8 +123,9 @@ export function buildTranslation(
 
   const pairs = transformToPairs(templates, values);
 
-  return pairs.reduce<string>(
-    (result, [token, value]) => result.replaceAll(token, String(value)),
-    source,
-  );
+  let result = source;
+  for (const [token, value] of pairs) {
+    result = result.replaceAll(token, String(value));
+  }
+  return result;
 }

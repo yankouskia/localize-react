@@ -1,5 +1,5 @@
-import { useLocalize } from './use-localize.js';
 import type { MessageProps } from './types.js';
+import { useLocalize } from './use-localize.js';
 
 /**
  * Render a translated string by descriptor.

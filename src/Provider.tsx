@@ -1,4 +1,5 @@
 import { createContext, useEffect, useMemo } from 'react';
+
 import {
   buildTranslation,
   clearCache,
@@ -15,7 +16,8 @@ import type {
 
 const DEFAULT_CONTEXT_VALUE: LocalizationContextValue = {
   locale: undefined,
-  translate: (descriptor, _values, defaultMessage) => defaultMessage ?? descriptor,
+  translate: (descriptor, _values, defaultMessage) =>
+    defaultMessage ?? descriptor,
   translations: {},
 };
 
@@ -25,8 +27,9 @@ const DEFAULT_CONTEXT_VALUE: LocalizationContextValue = {
  * `static contextType = LocalizationContext` is supported for legacy
  * class components.
  */
-export const LocalizationContext =
-  createContext<LocalizationContextValue>(DEFAULT_CONTEXT_VALUE);
+export const LocalizationContext = createContext<LocalizationContextValue>(
+  DEFAULT_CONTEXT_VALUE,
+);
 
 LocalizationContext.displayName = 'LocalizationContext';
 
@@ -47,15 +50,14 @@ export function LocalizationProvider({
   locale,
   translations = {},
 }: LocalizationProviderProps): React.JSX.Element {
-  const sanitizedLocale = sanitizeLocale(locale, translations);
-
-  const localeTranslations: Translations | string | undefined =
-    sanitizedLocale === null ? translations : translations[sanitizedLocale];
-
-  const pureTranslations: Translations =
-    localeTranslations && typeof localeTranslations === 'object'
+  const pureTranslations = useMemo<Translations>(() => {
+    const sanitizedLocale = sanitizeLocale(locale, translations);
+    const localeTranslations: Translations | string | undefined =
+      sanitizedLocale === null ? translations : translations[sanitizedLocale];
+    return localeTranslations && typeof localeTranslations === 'object'
       ? localeTranslations
       : {};
+  }, [locale, translations]);
 
   useEffect(() => {
     clearCache();

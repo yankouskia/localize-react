@@ -3,6 +3,7 @@ dist/
 build/
 docs/api/
 site/
+.tsup/
 .tsbuildinfo
 *.tsbuildinfo
 
