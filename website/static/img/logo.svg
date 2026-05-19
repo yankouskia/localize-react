@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="localize-react logo">
+  <defs>
+    <linearGradient id="lz-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7d5cf0"/>
+      <stop offset="0.55" stop-color="#43bccd"/>
+      <stop offset="1" stop-color="#f8a23c"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#lz-grad)"/>
+  <g fill="#fff">
+    <path d="M19.4 19.4h4.6v18.4h10v4.4H19.4z"/>
+    <path d="M44.6 25.4c0 1.7-1.3 3-3 3s-3-1.3-3-3 1.3-3 3-3 3 1.3 3 3zm-5.4 5.4h4.8v11.4h-4.8z"/>
+  </g>
+</svg>

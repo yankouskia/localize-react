@@ -1,290 +1,208 @@
-[![CircleCI](https://circleci.com/gh/yankouskia/localize-react.svg?style=shield)](https://circleci.com/gh/yankouskia/localize-react) [![Codecov Coverage](https://img.shields.io/codecov/c/github/yankouskia/localize-react/master.svg?style=flat-square)](https://codecov.io/gh/yankouskia/localize-react/) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yankouskia/localize-react/pulls) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yankouskia/localize-react/blob/master/LICENSE) ![GitHub stars](https://img.shields.io/github/stars/yankouskia/localize-react.svg?style=social)
+<div align="center">
 
-[![NPM](https://nodei.co/npm/localize-react.png?downloads=true)](https://www.npmjs.com/package/localize-react)
+<a href="https://yankouskia.github.io/localize-react">
+  <img src="./website/static/img/logo.svg" alt="localize-react" width="96" height="96" />
+</a>
 
 # localize-react
 
-✈️ Lightweight React Localization Library 🇺🇸
+### **React i18n, without the weight.**
 
-## Motivation
+Tiny, type-safe React i18n built on Context and hooks.<br/>
+**< 1 kB brotli · 0 runtime deps · dual ESM + CJS · React 19 ready.**
 
-Creating really simple lightweight library for localization in React applications without any dependencies, which is built on top of new [React Context Api](https://reactjs.org/docs/context.html)
+[**Docs**](https://yankouskia.github.io/localize-react) ·
+[**Quickstart**](https://yankouskia.github.io/localize-react/docs/quickstart) ·
+[**API**](https://yankouskia.github.io/localize-react/docs/api) ·
+[**Recipes**](https://yankouskia.github.io/localize-react/docs/recipes) ·
+[**Migration v1 → v2**](https://yankouskia.github.io/localize-react/docs/migration-v2)
 
-Library has just **737 Bytes** gzipped size
+[![npm](https://img.shields.io/npm/v/localize-react?style=flat-square&color=cb3837&logo=npm&label=npm)](https://www.npmjs.com/package/localize-react)
+[![downloads](https://img.shields.io/npm/dm/localize-react?style=flat-square&color=cb3837)](https://www.npmjs.com/package/localize-react)
+[![CI](https://img.shields.io/github/actions/workflow/status/yankouskia/localize-react/ci.yml?branch=master&style=flat-square&logo=github&label=CI)](https://github.com/yankouskia/localize-react/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/codecov/c/github/yankouskia/localize-react?style=flat-square&logo=codecov)](https://codecov.io/gh/yankouskia/localize-react)
+[![bundle](https://img.shields.io/bundlejs/size/localize-react?style=flat-square&color=4c1&label=brotli)](https://bundlejs.com/?q=localize-react)
+[![types](https://img.shields.io/npm/types/localize-react?style=flat-square&logo=typescript)](https://github.com/yankouskia/localize-react/blob/master/src/types.ts)
+[![license](https://img.shields.io/npm/l/localize-react?style=flat-square&color=blue)](LICENSE)
 
-## Installation
+</div>
 
-npm:
+---
 
-```sh
-npm install localize-react --save
-```
-
-yarn:
-
-```sh
-yarn add localize-react
-```
-
-## API
-
-### Provider & Consumer
-
-`LocalizationProvider` is used to provide data for translations into React context. The root application component should be wrapped into `LocalizationProvider`. Component has the next props:
-
-- `children` - children to render
-- `locale` - [OPTIONAL] locale to be used for translations. If locale is not specified regular translations object will be used as map of `{ key: translations }`
-- `translations` - object with translations
-- `disableCache` - boolean variable to disable cache on runtime (`false` by default). Setting this to `true` could affect runtime performance, but could be useful for development.
-
-Example:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { LocalizationConsumer, LocalizationProvider } from 'localize-react';
-
-const TRANSLATIONS = {
-  en: {
-    name: 'Alex',
-  },
-};
-
-const App = () => (
-  <LocalizationProvider disableCache locale="en" translations={TRANSLATIONS}>
-    <LocalizationConsumer>
-      {({ translate }) => translate('name')}
-    </LocalizationConsumer>
-  </LocalizationProvider>
-);
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-### Message
-
-`Message` component is used to provide translated message by specified key, which should be passed via props. Component has the next props:
-
-- `descriptor` - translation key (descriptor)
-- `defaultMessage` - message to be used in case translation is not provided (values object are applied to default message as well)
-- `values` - possible values to use with template string (Template should be passed in next format: `Hello {{name}}`)
-
-Example:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { LocalizationProvider, Message } from 'localize-react';
-
-const TRANSLATIONS = {
-  en: {
-    name: 'Alex',
-  },
-};
-
-const App = () => (
-  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
-    <Message descriptor="name" />
-  </LocalizationProvider>
-);
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-To use with templates:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { LocalizationProvider, Message } from 'localize-react';
-
-const TRANSLATIONS = {
-  en: {
-    name: 'Hello, {{name}}!',
-  },
-};
-
-const App = () => (
-  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
-    <Message descriptor="name" values={{ name: 'Alex' }} />
-  </LocalizationProvider>
-);
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-To use with default message:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { LocalizationProvider, Message } from 'localize-react';
-
-const TRANSLATIONS = {
-  en: {},
-};
-
-const App = () => (
-  <LocalizationProvider locale="en" translations={TRANSLATIONS}>
-    <Message
-      descriptor="name"
-      defaultMessage="Hello, {{name}}!"
-      values={{ name: 'Alex' }}
-    />
-  </LocalizationProvider>
-);
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-### useLocalize
-
-`useLocalize` hook is used to provide localization context, which can be used for translation.
-
-**NOTE**
-
-Keep in mind, that hooks are not supported in class components!
-
-Example:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
+```tsx
 import { LocalizationProvider, useLocalize } from 'localize-react';
 
-const TRANSLATIONS = {
-  en: {
-    name: 'Alex',
-  },
-};
-
-function Test() {
-  const { translate } = useLocalize();
-
-  return translate('name');
-}
-
-const App = () => {
-  return (
-    <LocalizationProvider locale="en" translations={TRANSLATIONS}>
-      <Test />
-    </LocalizationProvider>
-  );
-};
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-### Templates
-
-It's possible to use templates inside translation strings with highlighting templates using double curly braces. To pass correpospondent values:
-
-```js
-const translation = translate('My name is {{name}}. I am {{age}}', {
-  name: 'Alex',
-  age: 25,
-});
-```
-
-Or with React component:
-
-```js
-<Message
-  descriptor="My name is {{name}}. I am {{age}}"
-  values={{ name: 'Alex', age: 25 }}
-/>
-```
-
-### contextType
-
-Alternative way of usage inside class components:
-
-```js
-import React from 'react';
-import { LocalizationContext, LocalizationProvider } from 'localize-react';
-
-const TRANSLATIONS = {
-  en: {
-    name: 'Alex',
-  },
-};
-
-class Translation extends React.PureComponent {
-  render() {
-    return <span>{this.context.translate('name')}</span>;
-  }
-}
-
-Translation.contextType = LocalizationContext;
-
-const App = () => {
-  return (
-    <LocalizationProvider locale="en" translations={TRANSLATIONS}>
-      <Translation />
-    </LocalizationProvider>
-  );
-};
-
-ReactDOM.render(<App />, node); // "Alex" will be rendered
-```
-
-### locale
-
-Locale could be passed in short or long option.
-
-Valid examples:
-
-```
-en-us
-EN_US
-en
-eN-uS
-```
-
-### translations
-
-Translations could be passed in any object form (plain or with deep properties)
-
-Valid examples:
-
-```js
 const translations = {
-  n: {
-    a: {
-      m: {
-        e: 'Alex',
-      },
-    },
-  },
-},
+  en: { hello: 'Hi {{name}}!' },
+  es: { hello: '¡Hola {{name}}!' },
+  ja: { hello: '{{name}}さん、こんにちは!' },
+};
+
+function Greeting() {
+  const { translate } = useLocalize();
+  return <h1>{translate('hello', { name: 'Alex' })}</h1>;
+}
+
+export default function App() {
+  return (
+    <LocalizationProvider locale="en" translations={translations}>
+      <Greeting />
+    </LocalizationProvider>
+  );
+}
 ```
 
-You could use key with dot delimiter to access that property:
+That's the whole API. Three exports, no plugins, no extraction toolchain. Ship it.
 
-```js
-<Message descriptor="n.a.m.e" /> // will print "Alex"
-```
+---
 
-If there is no exact match in translations, then the value of locale will be sanitized and formatted to **lower_case_separate_by_underscore**. Make sure you provide translations object with keys in this format. If translations for long locale will not be found, and translations will be found for shorten alternative - that version will be used
+## ✨ Why?
 
-## Restriction
+Most React i18n libraries are 30–80 kB and bring opinions about plural rules, ICU MessageFormat, async loading, and TMS workflows. **`localize-react` is the smallest thing that works.**
 
-At least `React 16.8.0` is required to use this library, because new React Context API & React Hooks
+It does exactly what a frontend most often needs:
 
-## Contributing
+- A nested translations tree, keyed by locale.
+- Dot-path lookups (`'cart.summary'`).
+- `{{name}}`-style interpolation.
+- A graceful fallback when keys are missing.
 
-`localize-react` is open-source library, opened for contributions
+For everything else (plurals, currency, dates) — reach for [the platform](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl): `Intl.PluralRules`, `Intl.NumberFormat`, `Intl.DateTimeFormat`. Free, fast, already in the browser. See the [Intl formatters recipe](https://yankouskia.github.io/localize-react/docs/recipes/intl-formatters).
 
-### Tests
+## 📦 Specs
 
-**Current test coverage is 100%**
+| Property             | Value                                                  |
+| -------------------- | ------------------------------------------------------ |
+| Bundle (brotli)      | **916 B** ESM · 989 B CJS                              |
+| Runtime dependencies | **0**                                                  |
+| Source               | Strict **TypeScript 6**                                |
+| Module formats       | ESM + CJS with proper `exports`/`types` conditions     |
+| Tree-shaking         | `sideEffects: false`                                   |
+| Peer range           | React `>= 16.8 < 20` (tested in CI through React 19)   |
+| Node                 | `>= 20.19` (CI on 20, 22, 24 × Linux/macOS/Windows)    |
+| Test coverage        | **100 %** statements · 100 % functions · 98 % branches |
+| Type-checked exports | Validated by `publint` + `@arethetypeswrong/cli` in CI |
 
-`jest` is used for tests. To run tests:
+## 🚀 Install
 
 ```sh
-yarn test
+npm install localize-react
+# or: pnpm add localize-react · yarn add localize-react · bun add localize-react
 ```
 
-### License
+## ⚡️ Quickstart
 
-localize-react is [MIT licensed](https://github.com/yankouskia/localize-react/blob/master/LICENSE)
+### 1. Define translations
+
+```ts
+export const translations = {
+  en: {
+    greeting: { hello: 'Hi {{name}}!' },
+    cart: { summary: '{{count}} items, {{total}} total' },
+  },
+  es: {
+    greeting: { hello: '¡Hola {{name}}!' },
+    cart: { summary: '{{count}} artículos, {{total}} total' },
+  },
+} as const;
+```
+
+### 2. Mount the provider
+
+```tsx
+import { LocalizationProvider } from 'localize-react';
+import { translations } from './i18n/translations';
+
+export function App() {
+  return (
+    <LocalizationProvider locale="en" translations={translations}>
+      <Shell />
+    </LocalizationProvider>
+  );
+}
+```
+
+### 3. Translate, two ways
+
+```tsx
+import { Message, useLocalize } from 'localize-react';
+
+// Hook
+function Cart() {
+  const { translate } = useLocalize();
+  return <p>{translate('cart.summary', { count: 3, total: '$42.00' })}</p>;
+}
+
+// Component
+function CartHeader() {
+  return (
+    <h1>
+      <Message descriptor="greeting.hello" values={{ name: 'Alex' }} />
+    </h1>
+  );
+}
+```
+
+That's the whole story. Full docs at **[yankouskia.github.io/localize-react](https://yankouskia.github.io/localize-react)**.
+
+## 🧠 Concept in one screen
+
+| Operation                | API                                                      |
+| ------------------------ | -------------------------------------------------------- |
+| Mount translations       | `<LocalizationProvider locale translations>`             |
+| Translate (hook)         | `useLocalize().translate(descriptor, values?, default?)` |
+| Translate (component)    | `<Message descriptor values? defaultMessage? />`         |
+| Switch locale at runtime | Re-render with a new `locale` prop                       |
+| Missing key              | Renders `defaultMessage ?? descriptor` (never throws)    |
+| Nested lookup            | `translate('a.b.c')` walks the tree                      |
+| Interpolation            | `{{token}}` — literal replacement, safe with regex chars |
+| Locale normalization     | `En-US` → `en_us` → `en`                                 |
+
+## 📚 Recipes
+
+Real-world patterns, fully documented on the site:
+
+- [Switching locales (URL / cookie / localStorage)](https://yankouskia.github.io/localize-react/docs/recipes/switching-locales)
+- [Lazy-loading translation chunks with `React.use()`](https://yankouskia.github.io/localize-react/docs/recipes/lazy-loading)
+- [Next.js (App Router) — `[locale]` segments + middleware](https://yankouskia.github.io/localize-react/docs/recipes/nextjs)
+- [Vite + React Router — `import.meta.glob`](https://yankouskia.github.io/localize-react/docs/recipes/vite)
+- [Testing — RTL render helper, descriptor coverage](https://yankouskia.github.io/localize-react/docs/recipes/testing)
+- [Intl formatters — plurals, currency, dates, lists](https://yankouskia.github.io/localize-react/docs/recipes/intl-formatters)
+
+## 🥊 How it compares
+
+|                      | **localize-react** | react-i18next | react-intl | lingui    |
+| -------------------- | ------------------ | ------------- | ---------- | --------- |
+| Bundle (brotli)      | **< 1 kB**         | ~17 kB        | ~38 kB     | ~9 kB     |
+| Runtime deps         | **0**              | several       | several    | one macro |
+| Pluralization (CLDR) | Use `Intl`         | ✅            | ✅ (ICU)   | ✅ (ICU)  |
+| Number / date format | Use `Intl`         | Optional      | ✅         | ✅        |
+| ICU MessageFormat    | ❌                 | ✅            | ✅         | ✅        |
+| Lazy locale loading  | DIY                | ✅            | ✅         | ✅        |
+| Auto extraction      | ❌                 | ✅            | CLI        | CLI       |
+| TypeScript-first     | ✅                 | ✅            | ✅         | ✅        |
+| Learning curve       | **Tiny**           | Medium        | Medium     | Medium    |
+
+Use `localize-react` when you want a hook + a tag. Reach for the others when CLDR plurals, ICU MessageFormat, or a TMS workflow matter — they're all great at what they do.
+
+## 🛡 Production-ready
+
+- **Types ship inside the package** — no `@types/localize-react` to chase.
+- **Provenance attestation** on every published version (npm OIDC trusted publishing).
+- **CodeQL** runs on every PR; CI matrix exercises Node 20/22/24 × Linux/macOS/Windows.
+- **Size budget enforced** — < 2 kB ESM, < 2.5 kB CJS, checked on every PR with [`size-limit`](https://github.com/ai/size-limit).
+- **No dynamic require, no eval, no regex from user input** — interpolation is literal `replaceAll`.
+
+## 📖 v1 → v2
+
+The runtime API is unchanged. v2 modernizes the toolchain (strict TS 6, dual ESM+CJS, React 19 peer, GitHub Actions + Changesets). One soft TypeScript regression in `exactOptionalPropertyTypes` mode — see the [migration guide](https://yankouskia.github.io/localize-react/docs/migration-v2).
+
+## 🤝 Contributing
+
+PRs welcome. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the setup + release flow. Security reports: please open a private security advisory rather than a public issue.
+
+If you'd like to support the project, [sponsoring](https://github.com/sponsors/yankouskia) helps a lot.
+
+## 📄 License
+
+[MIT](./LICENSE) © Aliaksandr Yankouski
