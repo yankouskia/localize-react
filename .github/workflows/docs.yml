@@ -59,11 +59,10 @@ jobs:
       - name: Setup Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
-        with:
-          # First-run convenience: ask the action to flip Pages to the
-          # "GitHub Actions" source if it hasn't been enabled in the repo
-          # settings yet. Subsequent runs are no-ops.
-          enablement: true
+        # Note: Pages must be enabled once in repo settings with Source set
+        # to "GitHub Actions" before this step succeeds. The `enablement: true`
+        # option requires an admin-scoped PAT which the default GITHUB_TOKEN
+        # does not have, so we don't set it.
 
       - name: Upload artifact
         if: github.event_name != 'pull_request'
