@@ -24,7 +24,12 @@
     },
     {
       "description": "React peer must stay broad; ignore major bumps that would tighten the peer range.",
-      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["major"],
       "automerge": false,

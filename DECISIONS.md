@@ -15,6 +15,7 @@ fast, strict, modern manager for the new toolchain.
 corepack. Old `yarn.lock` is deleted; a fresh `pnpm-lock.yaml` is committed.
 
 **Alternatives considered.**
+
 - _npm 11._ Works, lockfile is fine, but slower installs and no symlinked
   store — not a strong reason against, just no upside over pnpm.
 - _Yarn Berry (PnP)._ Strong story but tooling-hostile for a library that
@@ -38,6 +39,7 @@ CJS (`.cjs`) + a single `.d.ts` set, exposed through an `exports` map with
 `import`/`require`/`types` conditions. `sideEffects: false` for tree-shaking.
 
 **Alternatives considered.**
+
 - _ESM-only._ Cleaner story long-term but breaks every CJS consumer in one
   shot; not worth the ecosystem pain for a library this small.
 - _`tsc` project references._ Fine for pure-TS-consumers libraries but doesn't
@@ -61,6 +63,7 @@ TS in ESM.
 `@vitest/coverage-v8`. Hard threshold ≥ 90% lines/functions/branches.
 
 **Alternatives considered.**
+
 - _Jest 30._ Workable, but adds Babel and `ts-jest` cost for no benefit.
 - _Node's built-in test runner._ Lacks first-class React/jsdom story.
 
@@ -82,6 +85,7 @@ ecosystem.
 `eslint-plugin-promise`. Prettier 3 handles formatting.
 
 **Alternatives considered.**
+
 - _Biome._ Excellent and fast, but its React-specific lint rules are still
   narrower than the typescript-eslint + react-hooks combination — and a
   library where the public API is a React hook should not skimp on hook
@@ -103,6 +107,7 @@ release workflow uses npm's trusted publishing (OIDC) so no long-lived
 `publishConfig.provenance: true`.
 
 **Alternatives considered.**
+
 - _semantic-release._ Heavier, opinionated, harder to override per release.
 - _Manual publish (status quo)._ Doesn't meet the brief.
 

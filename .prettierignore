@@ -1,0 +1,10 @@
+dist/
+coverage/
+docs/api/
+site/
+node_modules/
+.tsup/
+pnpm-lock.yaml
+*.tsbuildinfo
+.changeset/*.md
+CHANGELOG.md

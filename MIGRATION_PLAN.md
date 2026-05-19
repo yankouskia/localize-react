@@ -17,40 +17,40 @@ import {
   LocalizationContext,
   LocalizationConsumer,
   LocalizationProvider, // props: { locale?, translations, disableCache?, children }
-  useLocalize,          // () => { locale, translate, translations }
-  Message,              // props: { descriptor, values?, defaultMessage? }
+  useLocalize, // () => { locale, translate, translations }
+  Message, // props: { descriptor, values?, defaultMessage? }
 } from 'localize-react';
 ```
 
 ## Phase 0 — Current state snapshot (2026-05-19)
 
-| Aspect | Current |
-| --- | --- |
-| Last release | `1.7.1` (Jul 2020) |
-| Node engines | _unspecified_ (CI ran on `node:12.2.0-alpine`) |
-| Language | ES2015 `.js` + JSX, hand-written `index.d.ts` |
-| Module system | Single UMD bundle (`dist/localize-react.js`, minified, no source maps) |
-| Build | Rollup 1 + babel 7 + uglify + auto-external |
-| Tests | Jest 24, snapshot-heavy, ran via babel-jest |
-| Lint / format | None |
-| CI | CircleCI 2.0, `node:12.2.0-alpine`, only runs coverage + codecov upload |
-| Release | Manual `npm publish` |
-| Docs | Long handwritten README, no generated reference |
-| Dependencies | 16 devDeps, all on majors 1–8 of various toolchains; **multiple known CVEs** outstanding (14 open Dependabot branches on the remote) |
-| Coverage claim | README says 100%; not verifiable today |
-| Baseline `yarn install` on Node 24 | **fails** — `fsevents@1`/`nan` can't compile against V8 12 |
+| Aspect                             | Current                                                                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Last release                       | `1.7.1` (Jul 2020)                                                                                                                   |
+| Node engines                       | _unspecified_ (CI ran on `node:12.2.0-alpine`)                                                                                       |
+| Language                           | ES2015 `.js` + JSX, hand-written `index.d.ts`                                                                                        |
+| Module system                      | Single UMD bundle (`dist/localize-react.js`, minified, no source maps)                                                               |
+| Build                              | Rollup 1 + babel 7 + uglify + auto-external                                                                                          |
+| Tests                              | Jest 24, snapshot-heavy, ran via babel-jest                                                                                          |
+| Lint / format                      | None                                                                                                                                 |
+| CI                                 | CircleCI 2.0, `node:12.2.0-alpine`, only runs coverage + codecov upload                                                              |
+| Release                            | Manual `npm publish`                                                                                                                 |
+| Docs                               | Long handwritten README, no generated reference                                                                                      |
+| Dependencies                       | 16 devDeps, all on majors 1–8 of various toolchains; **multiple known CVEs** outstanding (14 open Dependabot branches on the remote) |
+| Coverage claim                     | README says 100%; not verifiable today                                                                                               |
+| Baseline `yarn install` on Node 24 | **fails** — `fsevents@1`/`nan` can't compile against V8 12                                                                           |
 
 ### Risk register
 
-| # | Risk | Mitigation |
-| --- | --- | --- |
-| R1 | Breaking public API for users on `1.x` | Freeze the surface listed above; if a behavioural change is unavoidable, document in `BREAKING_CHANGES.md` and bump major. |
-| R2 | React 16/17 consumers still depend on the library | Set `peerDependencies.react` to `>=16.8.0` (unchanged) and test against React 18 + 19 in CI. Don't import any React 19-only APIs. |
-| R3 | Cache is module-level (shared across all providers) | Existing behaviour — keep it (`disableCache`-aware) and document as a known limitation in `KNOWN_ISSUES.md` if confirmed. |
-| R4 | `transformToPairs` regex builds `new RegExp(template, 'gi')` from user input — possible ReDoS / injection | Switch to a non-regex replace pass during the TS port. |
-| R5 | `Provider.test` snapshot tests are coupled to internal render output | Replace snapshots with explicit DOM assertions while porting to Vitest + RTL. |
-| R6 | `npm publish` is keyed to a single maintainer with a long-lived token (codecov token is even committed to `package.json`) | Move to OIDC trusted publishing via Changesets + GitHub Actions. Flag the leaked token. |
-| R7 | UMD-only build breaks ESM tree-shaking and modern bundlers | Ship dual ESM + CJS + `.d.ts` via tsup with a proper `exports` map. |
+| #   | Risk                                                                                                                      | Mitigation                                                                                                                        |
+| --- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| R1  | Breaking public API for users on `1.x`                                                                                    | Freeze the surface listed above; if a behavioural change is unavoidable, document in `BREAKING_CHANGES.md` and bump major.        |
+| R2  | React 16/17 consumers still depend on the library                                                                         | Set `peerDependencies.react` to `>=16.8.0` (unchanged) and test against React 18 + 19 in CI. Don't import any React 19-only APIs. |
+| R3  | Cache is module-level (shared across all providers)                                                                       | Existing behaviour — keep it (`disableCache`-aware) and document as a known limitation in `KNOWN_ISSUES.md` if confirmed.         |
+| R4  | `transformToPairs` regex builds `new RegExp(template, 'gi')` from user input — possible ReDoS / injection                 | Switch to a non-regex replace pass during the TS port.                                                                            |
+| R5  | `Provider.test` snapshot tests are coupled to internal render output                                                      | Replace snapshots with explicit DOM assertions while porting to Vitest + RTL.                                                     |
+| R6  | `npm publish` is keyed to a single maintainer with a long-lived token (codecov token is even committed to `package.json`) | Move to OIDC trusted publishing via Changesets + GitHub Actions. Flag the leaked token.                                           |
+| R7  | UMD-only build breaks ESM tree-shaking and modern bundlers                                                                | Ship dual ESM + CJS + `.d.ts` via tsup with a proper `exports` map.                                                               |
 
 ### Anomalies worth flagging now (R6 expanded)
 
@@ -66,19 +66,19 @@ from a template. Will not survive the rewrite.
 
 ## Target state
 
-| Aspect | Target |
-| --- | --- |
-| Node engines | `>=20.19.0` (active LTS); CI matrix `20`, `22`, `24` × `ubuntu-latest`, `macos-latest`, `windows-latest` |
-| Language | TypeScript 5.x, `strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `verbatimModuleSyntax` |
-| Module system | Dual ESM + CJS via `exports` map, with proper `types` conditions; `publint` + `attw` clean |
-| Build | `tsup` (esbuild under the hood) — ESM, CJS, `.d.ts`, source maps, `.d.ts.map` |
-| Tests | Vitest + `@testing-library/react`, jsdom env, explicit DOM assertions, `expectTypeOf` for type tests, coverage thresholds ≥ 90% |
-| Lint / format | ESLint v9 flat config (`typescript-eslint` v8, `eslint-plugin-react`, `eslint-plugin-react-hooks`, `unicorn`, `import-x`, `n`, `promise`) + Prettier 3 |
-| CI | GitHub Actions: `ci.yml`, `release.yml` (Changesets + npm provenance), `codeql.yml`, `docs.yml` |
-| Release | Changesets, npm provenance, automated by GitHub Actions |
-| Docs | Rewritten README + TypeDoc-generated API site published to GitHub Pages |
-| Dependencies | Renovate config, all majors current, zero high/critical CVEs |
-| Package manager | pnpm (pinned via `packageManager` + corepack) |
+| Aspect          | Target                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Node engines    | `>=20.19.0` (active LTS); CI matrix `20`, `22`, `24` × `ubuntu-latest`, `macos-latest`, `windows-latest`                                               |
+| Language        | TypeScript 5.x, `strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `verbatimModuleSyntax`                                          |
+| Module system   | Dual ESM + CJS via `exports` map, with proper `types` conditions; `publint` + `attw` clean                                                             |
+| Build           | `tsup` (esbuild under the hood) — ESM, CJS, `.d.ts`, source maps, `.d.ts.map`                                                                          |
+| Tests           | Vitest + `@testing-library/react`, jsdom env, explicit DOM assertions, `expectTypeOf` for type tests, coverage thresholds ≥ 90%                        |
+| Lint / format   | ESLint v9 flat config (`typescript-eslint` v8, `eslint-plugin-react`, `eslint-plugin-react-hooks`, `unicorn`, `import-x`, `n`, `promise`) + Prettier 3 |
+| CI              | GitHub Actions: `ci.yml`, `release.yml` (Changesets + npm provenance), `codeql.yml`, `docs.yml`                                                        |
+| Release         | Changesets, npm provenance, automated by GitHub Actions                                                                                                |
+| Docs            | Rewritten README + TypeDoc-generated API site published to GitHub Pages                                                                                |
+| Dependencies    | Renovate config, all majors current, zero high/critical CVEs                                                                                           |
+| Package manager | pnpm (pinned via `packageManager` + corepack)                                                                                                          |
 
 ## Phase-by-phase plan
 
