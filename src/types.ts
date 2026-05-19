@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 /**
  * A nested translation tree. Leaves are `string` (the localized text);
  * branches are nested objects keyed by the next segment of a dot-path.
@@ -58,7 +60,7 @@ export interface LocalizationContextValue {
 /** Props accepted by {@link LocalizationProvider}. */
 export interface LocalizationProviderProps {
   /** Provider subtree. */
-  readonly children?: React.ReactNode;
+  readonly children?: ReactNode;
   /**
    * Locale to look up inside {@link Translations}. If omitted, the
    * `translations` object is treated as the flat translation map.

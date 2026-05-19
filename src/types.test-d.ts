@@ -23,9 +23,11 @@ test('TemplateValues accepts string or number values', () => {
 
 test('Translate signature is (descriptor, values?, defaultMessage?) => string', () => {
   expectTypeOf<Translate>().toBeFunction();
-  expectTypeOf<Translate>().parameters.toEqualTypeOf<
-    [descriptor: string, values?: TemplateValues, defaultMessage?: string]
-  >();
+  expectTypeOf<Translate>().parameter(0).toEqualTypeOf<string>();
+  expectTypeOf<Translate>()
+    .parameter(1)
+    .toEqualTypeOf<TemplateValues | undefined>();
+  expectTypeOf<Translate>().parameter(2).toEqualTypeOf<string | undefined>();
   expectTypeOf<Translate>().returns.toEqualTypeOf<string>();
 });
 

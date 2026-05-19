@@ -74,7 +74,7 @@
     "prepare": "simple-git-hooks || true"
   },
   "peerDependencies": {
-    "react": ">=16.8.0"
+    "react": ">=16.8.0 <20"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -86,7 +86,8 @@
   },
   "pnpm": {
     "overrides": {
-      "tmp": ">=0.2.4"
+      "tmp": ">=0.2.4",
+      "fflate": "0.8.2"
     }
   },
   "simple-git-hooks": {
@@ -126,11 +127,11 @@
     "@eslint/js": "9",
     "@microsoft/api-extractor": "7",
     "@size-limit/preset-small-lib": "11",
-    "@testing-library/jest-dom": "6",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "16",
     "@testing-library/user-event": "14",
-    "@types/react": "18",
-    "@types/react-dom": "18",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
     "@vitest/coverage-v8": "^4.1.6",
     "eslint": "9",
     "eslint-plugin-import-x": "4",
@@ -144,14 +145,14 @@
     "lint-staged": "15",
     "prettier": "3",
     "publint": "0.3",
-    "react": "18",
-    "react-dom": "18",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "rimraf": "6",
     "simple-git-hooks": "2",
     "size-limit": "11",
     "tsup": "8",
     "typedoc": "~0.28.19",
-    "typescript": "5",
+    "typescript": "^6.0.3",
     "typescript-eslint": "8",
     "vite": "7",
     "vitest": "^4.1.6"
