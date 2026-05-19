@@ -1,0 +1,21 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "name": "localize-react",
+  "tsconfig": "./tsconfig.json",
+  "readme": "./README.md",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "skipErrorChecking": false,
+  "githubPages": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/yankouskia/localize-react",
+    "npm": "https://www.npmjs.com/package/localize-react"
+  },
+  "sort": ["alphabetical"],
+  "hideGenerator": true,
+  "categorizeByGroup": true
+}

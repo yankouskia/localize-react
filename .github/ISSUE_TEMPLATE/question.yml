@@ -1,0 +1,26 @@
+name: Question
+description: Ask a question about using the library.
+title: 'q: '
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For general usage questions, GitHub Discussions is usually a better fit —
+        but if you've already searched and can't find an answer, this template is
+        fine.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: What have you tried?
+  - type: input
+    id: version
+    attributes:
+      label: localize-react version
+      placeholder: '2.0.0'

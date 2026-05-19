@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/yankouskia/localize-react/security/advisories/new
+    about: Report a security vulnerability privately. Please do NOT open a public issue.
+  - name: Discussion / Help
+    url: https://github.com/yankouskia/localize-react/discussions
+    about: For general usage questions and ideas.
