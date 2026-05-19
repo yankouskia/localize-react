@@ -19,6 +19,7 @@ const ignores = [
   'coverage/**',
   'docs/api/**',
   'site/**',
+  'website/**',
   'node_modules/**',
   '.tsup/**',
   '*.tsbuildinfo',

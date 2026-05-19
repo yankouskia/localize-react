@@ -1,4 +1,5 @@
 import { createContext, useEffect, useMemo } from 'react';
+import type { JSX } from 'react';
 
 import {
   buildTranslation,
@@ -49,7 +50,7 @@ export function LocalizationProvider({
   disableCache = false,
   locale,
   translations = {},
-}: LocalizationProviderProps): React.JSX.Element {
+}: LocalizationProviderProps): JSX.Element {
   const pureTranslations = useMemo<Translations>(() => {
     const sanitizedLocale = sanitizeLocale(locale, translations);
     const localeTranslations: Translations | string | undefined =

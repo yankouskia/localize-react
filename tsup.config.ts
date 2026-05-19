@@ -3,7 +3,8 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
-  experimentalDts: { entry: { index: 'src/index.ts' } },
+  tsconfig: './tsconfig.build.json',
+  dts: true,
   sourcemap: true,
   clean: true,
   target: 'es2022',
