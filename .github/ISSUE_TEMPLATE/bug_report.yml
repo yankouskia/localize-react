@@ -1,0 +1,58 @@
+name: Bug report
+description: Report something that doesn't work the way the docs say it should.
+title: 'bug: '
+labels: ['bug', 'triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! A small reproduction is the single
+        thing that makes the difference between "fixed in an hour" and "in the
+        backlog for a year" — please include one.
+  - type: input
+    id: version
+    attributes:
+      label: localize-react version
+      placeholder: '2.0.0'
+    validations:
+      required: true
+  - type: input
+    id: react
+    attributes:
+      label: React version
+      placeholder: '18.3.1'
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: Node version, bundler, framework (Next.js, Vite, CRA, etc.)
+      placeholder: 'Node 22.x, Vite 7, Vitest 4'
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: A minimal code sample or a link to a StackBlitz / CodeSandbox.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Stack traces, screenshots, related issues.

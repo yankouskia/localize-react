@@ -1,0 +1,18 @@
+# Renovate handles npm + lockfile maintenance — see renovate.json.
+# Dependabot here is the failsafe for GitHub Actions only, since
+# Renovate's GH Actions pinning is opt-in per repo.
+
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
+      timezone: 'Etc/UTC'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'
+    labels: ['deps', 'github-actions']
