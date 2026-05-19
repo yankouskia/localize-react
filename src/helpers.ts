@@ -1,4 +1,4 @@
-import type { TemplateValues, Translations } from './types.js';
+import type { TemplateValues, Translate, Translations } from './types.js';
 
 /** Warning logged when no locale entry matches the requested locale. */
 export const NO_TRANSLATION_WARNING_MESSAGE =
@@ -54,21 +54,11 @@ export function sanitizeLocale(
  * Returns a memoizing wrapper around {@link fn}. The cache key combines
  * the descriptor, the JSON-serialized values, and the default message.
  */
-export function memoize<
-  F extends (
-    descriptor: string,
-    values?: TemplateValues,
-    defaultMessage?: string,
-  ) => string,
->(fn: F): F {
-  const memoized = (
-    descriptor: string,
-    values?: TemplateValues,
-    defaultMessage = '',
-  ): string => {
+export function memoize(fn: Translate): Translate {
+  return (descriptor, values, defaultMessage) => {
     const cacheKey = values
-      ? JSON.stringify(values) + descriptor + defaultMessage
-      : descriptor + defaultMessage;
+      ? JSON.stringify(values) + descriptor + (defaultMessage ?? '')
+      : descriptor + (defaultMessage ?? '');
 
     const cached = translationCache[cacheKey];
     if (cached !== undefined) return cached;
@@ -77,8 +67,6 @@ export function memoize<
     translationCache[cacheKey] = output;
     return output;
   };
-
-  return memoized as F;
 }
 
 /** Reset the module-level translation cache. */
