@@ -4,8 +4,9 @@ on:
   push:
     branches: [main, master]
 
-# Trusted publishing to npm needs `id-token: write`; pull-request creation
-# (for the Changesets "Version Packages" PR) needs `pull-requests: write`.
+# `id-token: write` keeps npm provenance attestation working; pull-request
+# creation (for the Changesets "Version Packages" PR) needs
+# `pull-requests: write`. Publish auth itself uses the NPM_TOKEN secret.
 permissions:
   contents: write
   pull-requests: write
@@ -16,8 +17,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  CI: 'true'
-  HUSKY: '0'
+  CI: "true"
+  HUSKY: "0"
 
 jobs:
   release:
@@ -37,9 +38,9 @@ jobs:
       - name: Set up Node 22
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -53,9 +54,12 @@ jobs:
         with:
           version: pnpm version
           publish: pnpm release
-          commit: 'chore(release): version packages'
-          title: 'chore(release): version packages'
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # npm trusted publishing via OIDC — no NPM_TOKEN needed.
-          NPM_CONFIG_PROVENANCE: 'true'
+          # Publish auth: classic npm Automation token stored as a repo
+          # secret. Provenance still works with token auth as long as
+          # `id-token: write` is granted above.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
