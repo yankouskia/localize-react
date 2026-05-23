@@ -1,7 +1,7 @@
 name: Feature request
 description: Suggest a new feature or improvement.
-title: 'feat: '
-labels: ['enhancement', 'triage']
+title: "feat: "
+labels: ["enhancement", "triage"]
 body:
   - type: textarea
     id: problem
@@ -26,11 +26,11 @@ body:
     attributes:
       label: Scope
       options:
-        - 'API addition (new export / option)'
-        - 'API change (breaking)'
-        - 'Performance'
-        - 'Docs / examples'
-        - 'Tooling / CI'
-        - 'Other'
+        - "API addition (new export / option)"
+        - "API change (breaking)"
+        - "Performance"
+        - "Docs / examples"
+        - "Tooling / CI"
+        - "Other"
     validations:
       required: true

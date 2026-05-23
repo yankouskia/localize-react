@@ -4,15 +4,15 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '04:00'
-      timezone: 'Etc/UTC'
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Etc/UTC"
     open-pull-requests-limit: 5
     commit-message:
-      prefix: 'ci'
-      include: 'scope'
-    labels: ['deps', 'github-actions']
+      prefix: "ci"
+      include: "scope"
+    labels: ["deps", "github-actions"]

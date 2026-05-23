@@ -1,7 +1,7 @@
 name: Question
 description: Ask a question about using the library.
-title: 'q: '
-labels: ['question']
+title: "q: "
+labels: ["question"]
 body:
   - type: markdown
     attributes:
@@ -23,4 +23,4 @@ body:
     id: version
     attributes:
       label: localize-react version
-      placeholder: '2.0.0'
+      placeholder: "2.0.0"

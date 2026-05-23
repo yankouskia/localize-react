@@ -4,14 +4,21 @@
   overflow: hidden;
   padding: clamp(3rem, 8vw, 6.5rem) 1.25rem 4rem;
   background:
-    radial-gradient(ellipse 90% 60% at 80% -10%,
+    radial-gradient(
+      ellipse 90% 60% at 80% -10%,
       rgba(125, 92, 240, 0.35) 0%,
-      transparent 60%),
-    radial-gradient(ellipse 60% 50% at 0% 110%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 0% 110%,
       rgba(67, 188, 205, 0.28) 0%,
-      transparent 60%),
-    linear-gradient(180deg, var(--ifm-background-color) 0%,
-      var(--lz-hero-bottom) 100%);
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ifm-background-color) 0%,
+      var(--lz-hero-bottom) 100%
+    );
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
@@ -55,7 +62,7 @@
 .heroAccent {
   background: linear-gradient(120deg, #7d5cf0 0%, #43bccd 50%, #f8a23c 100%);
   -webkit-background-clip: text;
-          background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
@@ -86,7 +93,10 @@
   font-weight: 600;
   text-decoration: none !important;
   box-shadow: 0 14px 30px -10px rgba(125, 92, 240, 0.55);
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    filter 120ms ease;
 }
 
 .btnPrimary:hover {
@@ -106,7 +116,9 @@
   color: var(--ifm-color-emphasis-900) !important;
   font-weight: 500;
   text-decoration: none !important;
-  transition: background 120ms ease, border-color 120ms ease;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
 }
 
 [data-theme='dark'] .btnGhost {
@@ -262,7 +274,10 @@
   border-radius: 16px;
   background: var(--lz-card-bg);
   border: 1px solid var(--ifm-color-emphasis-200);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .featureCard:hover {
@@ -376,9 +391,11 @@
 .cta {
   text-align: center;
   background:
-    radial-gradient(ellipse 60% 80% at 50% 0%,
+    radial-gradient(
+      ellipse 60% 80% at 50% 0%,
       rgba(125, 92, 240, 0.18) 0%,
-      transparent 65%),
+      transparent 65%
+    ),
     var(--lz-alt-bg);
   border-radius: 24px;
   margin: 2rem auto 4rem;
