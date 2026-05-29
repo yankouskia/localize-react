@@ -9,7 +9,7 @@
 ### **React i18n, without the weight.**
 
 Tiny, type-safe React i18n built on Context and hooks.<br/>
-**< 1 kB brotli · 0 runtime deps · dual ESM + CJS · React 19 ready.**
+**~1.1 kB brotli · 0 runtime deps · dual ESM + CJS · React 19 ready.**
 
 [**Docs**](https://yankouskia.github.io/localize-react) ·
 [**Quickstart**](https://yankouskia.github.io/localize-react/docs/quickstart) ·
@@ -73,7 +73,7 @@ For everything else (plurals, currency, dates) — reach for [the platform](http
 
 | Property             | Value                                                  |
 | -------------------- | ------------------------------------------------------ |
-| Bundle (brotli)      | **996 B** ESM · 1.07 kB CJS                            |
+| Bundle (brotli)      | **1.13 kB** ESM · 1.22 kB CJS                          |
 | Runtime dependencies | **0**                                                  |
 | Source               | Strict **TypeScript 6**                                |
 | Module formats       | ESM + CJS with proper `exports`/`types` conditions     |
@@ -169,7 +169,30 @@ function Greeting() {
 }
 ```
 
-A pure compile-time wrapper — no runtime cost, no second cache, ~60 bytes added to the brotli bundle compared to the untyped exports. Full guide: **[Type-safe API](https://yankouskia.github.io/localize-react/docs/guides/type-safe-api)**.
+A pure compile-time wrapper — no runtime cost, no second cache. Full guide: **[Type-safe API](https://yankouskia.github.io/localize-react/docs/guides/type-safe-api)**.
+
+## 🎨 Rich content with `<RichMessage />`
+
+Need a link or component inside a translated sentence? `<RichMessage />` returns a `ReactNode` and lets `values` include React nodes, so a single translation can host inline rich content without splitting the sentence across JSX:
+
+```tsx
+import { RichMessage } from 'localize-react';
+
+// en: 'By signing up, you agree to our {{link}}.'
+// de: 'Mit der Anmeldung stimmen Sie unseren {{link}} zu.'
+function Footer() {
+  return (
+    <p>
+      <RichMessage
+        descriptor="signup.terms"
+        values={{ link: <a href="/terms">Terms of Service</a> }}
+      />
+    </p>
+  );
+}
+```
+
+The link lands wherever the translator put `{{link}}` — German word order, Japanese particles, RTL flow, all handled by the translation. Strings and numbers are still accepted (and coerced) so you can mix them freely. Available as a typed export from `createLocalization()` too. Full recipe: **[Rich content](https://yankouskia.github.io/localize-react/docs/recipes/rich-content)**.
 
 ## 🧠 Concept in one screen
 
@@ -178,6 +201,7 @@ A pure compile-time wrapper — no runtime cost, no second cache, ~60 bytes adde
 | Mount translations       | `<LocalizationProvider locale translations>`             |
 | Translate (hook)         | `useLocalize().translate(descriptor, values?, default?)` |
 | Translate (component)    | `<Message descriptor values? defaultMessage? />`         |
+| Translate with JSX       | `<RichMessage descriptor values? defaultMessage? />`     |
 | Switch locale at runtime | Re-render with a new `locale` prop                       |
 | Missing key              | Renders `defaultMessage ?? descriptor` (never throws)    |
 | Nested lookup            | `translate('a.b.c')` walks the tree                      |
@@ -199,7 +223,7 @@ Real-world patterns, fully documented on the site:
 
 |                      | **localize-react** | react-i18next | react-intl | lingui    |
 | -------------------- | ------------------ | ------------- | ---------- | --------- |
-| Bundle (brotli)      | **< 1 kB**         | ~17 kB        | ~38 kB     | ~9 kB     |
+| Bundle (brotli)      | **~1.1 kB**        | ~17 kB        | ~38 kB     | ~9 kB     |
 | Runtime deps         | **0**              | several       | several    | one macro |
 | Pluralization (CLDR) | Use `Intl`         | ✅            | ✅ (ICU)   | ✅ (ICU)  |
 | Number / date format | Use `Intl`         | Optional      | ✅         | ✅        |

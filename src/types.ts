@@ -25,6 +25,17 @@ export interface Translations {
 export type TemplateValues = Readonly<Record<string, string | number>>;
 
 /**
+ * Values accepted by {@link RichMessage}-style interpolation. Each token
+ * can be any `ReactNode` — a string, a number, a link, a `<strong>`, a
+ * custom component, an icon — so a single translation can host inline
+ * rich content without breaking the sentence apart in JSX.
+ *
+ * Strings and numbers are coerced via `String()` at render time, matching
+ * {@link TemplateValues}. Anything else is forwarded to React verbatim.
+ */
+export type RichTemplateValues = Readonly<Record<string, ReactNode>>;
+
+/**
  * Translate function returned by {@link useLocalize} and exposed on
  * {@link LocalizationContext}.
  *
@@ -84,6 +95,20 @@ export interface MessageProps {
   readonly descriptor: string;
   /** Interpolation values for `{{placeholder}}` tokens. */
   readonly values?: TemplateValues;
+  /** Fallback string when `descriptor` cannot be resolved. */
+  readonly defaultMessage?: string;
+}
+
+/** Props accepted by {@link RichMessage}. */
+export interface RichMessageProps {
+  /** Translation key — see {@link Translate}. */
+  readonly descriptor: string;
+  /**
+   * Interpolation values for `{{placeholder}}` tokens. Each value may be
+   * a string/number (rendered as text) or any `ReactNode` (embedded as
+   * inline rich content).
+   */
+  readonly values?: RichTemplateValues;
   /** Fallback string when `descriptor` cannot be resolved. */
   readonly defaultMessage?: string;
 }

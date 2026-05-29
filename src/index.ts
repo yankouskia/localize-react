@@ -14,12 +14,16 @@ export { useLocalize } from './use-localize.js';
 
 export { Message } from './Message.js';
 
+export { RichMessage, buildRichTranslation } from './RichMessage.js';
+
 export { createLocalization } from './createLocalization.js';
 
 export type {
   LocalizationContextValue,
   LocalizationProviderProps,
   MessageProps,
+  RichMessageProps,
+  RichTemplateValues,
   TemplateValues,
   Translate,
   Translations,
@@ -33,5 +37,6 @@ export type {
   TypedLocalizationContextValue,
   TypedLocalizationProviderProps,
   TypedMessageProps,
+  TypedRichMessageProps,
   TypedTranslate,
 } from './createLocalization.js';

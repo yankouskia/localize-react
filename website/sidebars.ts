@@ -29,6 +29,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'recipes/switching-locales',
         'recipes/lazy-loading',
+        'recipes/rich-content',
         'recipes/nextjs',
         'recipes/vite',
         'recipes/testing',

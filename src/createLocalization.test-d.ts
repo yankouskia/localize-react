@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { expectTypeOf, test } from 'vitest';
 
 import type {
@@ -6,6 +7,7 @@ import type {
   TranslationPaths,
   TypedLocalization,
   TypedMessageProps,
+  TypedRichMessageProps,
 } from './createLocalization.js';
 
 const _seed = {
@@ -151,4 +153,47 @@ test('TypedMessageProps rejects non-leaf and unknown descriptors', () => {
   type _NonLeaf = TypedMessageProps<T, 'cart'>;
   // @ts-expect-error -- 'unknown' is not in the tree
   type _Unknown = TypedMessageProps<T, 'unknown'>;
+});
+
+test('TypedRichMessageProps accepts any ReactNode at every token slot', () => {
+  type GreetingRich = TypedRichMessageProps<T, 'greeting'>;
+  expectTypeOf<GreetingRich['values']>().toEqualTypeOf<
+    Readonly<{ name: ReactNode }>
+  >();
+});
+
+test('TypedRichMessageProps narrows the descriptor to known paths', () => {
+  // @ts-expect-error -- 'cart' resolves to an object, not a leaf
+  type _BadNonLeaf = TypedRichMessageProps<T, 'cart'>;
+  // @ts-expect-error -- 'unknown' is not in the tree
+  type _BadUnknown = TypedRichMessageProps<T, 'unknown'>;
+});
+
+test('TypedRichMessageProps requires every token in a multi-token leaf', () => {
+  type CartRich = TypedRichMessageProps<T, 'cart.summary'>;
+  expectTypeOf<CartRich['values']>().toEqualTypeOf<
+    Readonly<{ count: ReactNode; total: ReactNode }>
+  >();
+
+  const _bad: CartRich = {
+    descriptor: 'cart.summary',
+    // @ts-expect-error -- 'total' is required
+    values: { count: 1 },
+  };
+  void _bad;
+});
+
+test('TypedRichMessageProps makes values optional for token-free descriptors', () => {
+  type CheckoutRich = TypedRichMessageProps<T, 'cart.checkout'>;
+  expectTypeOf<CheckoutRich['values']>().toEqualTypeOf<
+    Readonly<Record<string, ReactNode>> | undefined
+  >();
+});
+
+test('TypedRichMessage on the factory has the same path narrowing as Message', () => {
+  type RichFn = Api['RichMessage'];
+  type MsgFn = Api['Message'];
+  expectTypeOf<Parameters<RichFn>[0]['descriptor']>().toEqualTypeOf<
+    Parameters<MsgFn>[0]['descriptor']
+  >();
 });

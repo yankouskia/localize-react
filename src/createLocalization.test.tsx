@@ -238,6 +238,23 @@ describe('createLocalization', () => {
     );
   });
 
+  it('renders the typed RichMessage with React-node values', () => {
+    const { LocalizationProvider, RichMessage } =
+      createLocalization(translations);
+    render(
+      <LocalizationProvider locale="en">
+        <p data-testid="o">
+          <RichMessage
+            descriptor="greeting"
+            values={{ name: <strong data-testid="who">Alex</strong> }}
+          />
+        </p>
+      </LocalizationProvider>,
+    );
+    expect(screen.getByTestId('o')).toHaveTextContent('Hi Alex!');
+    expect(screen.getByTestId('who').tagName).toBe('STRONG');
+  });
+
   it('warns when the locale prop has no matching entry (passthrough behaviour)', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const { LocalizationProvider, Message } = createLocalization(translations);

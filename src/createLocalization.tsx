@@ -2,7 +2,12 @@ import type { JSX, ReactNode } from 'react';
 
 import { Message } from './Message.js';
 import { LocalizationProvider } from './Provider.js';
-import type { TemplateValues, Translations } from './types.js';
+import { RichMessage } from './RichMessage.js';
+import type {
+  RichTemplateValues,
+  TemplateValues,
+  Translations,
+} from './types.js';
 import { useLocalize } from './use-localize.js';
 
 // =============================================================
@@ -147,8 +152,24 @@ export type TypedMessageProps<T, P extends TranslationPaths<LeafTreeOf<T>>> = {
   : { readonly values: ValuesShape<TokensAt<T, P>> });
 
 /**
+ * Props accepted by the typed `RichMessage` component. Same key/path
+ * narrowing as {@link TypedMessageProps}, but `values` may include
+ * `ReactNode` entries so a translation can host inline rich content
+ * (links, components, formatted spans, …).
+ */
+export type TypedRichMessageProps<
+  T,
+  P extends TranslationPaths<LeafTreeOf<T>>,
+> = {
+  readonly descriptor: P;
+  readonly defaultMessage?: string;
+} & ([TokensAt<T, P>] extends [never]
+  ? { readonly values?: RichTemplateValues }
+  : { readonly values: Readonly<Record<TokensAt<T, P>, ReactNode>> });
+
+/**
  * Shape of the object returned by {@link createLocalization}: a typed
- * trio of bindings derived from the seed translations.
+ * quartet of bindings derived from the seed translations.
  */
 export interface TypedLocalization<T> {
   readonly LocalizationProvider: (
@@ -158,6 +179,9 @@ export interface TypedLocalization<T> {
   readonly Message: <P extends TranslationPaths<LeafTreeOf<T>>>(
     props: TypedMessageProps<T, P>,
   ) => string;
+  readonly RichMessage: <P extends TranslationPaths<LeafTreeOf<T>>>(
+    props: TypedRichMessageProps<T, P>,
+  ) => ReactNode;
 }
 
 // =============================================================
@@ -255,5 +279,6 @@ export function createLocalization<
     LocalizationProvider: TypedProvider,
     useLocalize: useLocalize as unknown as TypedLocalization<T>['useLocalize'],
     Message,
+    RichMessage,
   };
 }
