@@ -52,8 +52,11 @@ jobs:
         id: changesets
         uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
         with:
-          version: pnpm version
-          publish: pnpm release
+          # pnpm has a built-in `version` subcommand that shadows scripts,
+          # so the script must be invoked via `pnpm run`. `release` is not
+          # a pnpm built-in, but using `run` consistently is clearer.
+          version: pnpm run version
+          publish: pnpm run release
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
         env:
