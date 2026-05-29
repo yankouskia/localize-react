@@ -14,6 +14,8 @@ export { useLocalize } from './use-localize.js';
 
 export { Message } from './Message.js';
 
+export { createLocalization } from './createLocalization.js';
+
 export type {
   LocalizationContextValue,
   LocalizationProviderProps,
@@ -22,3 +24,14 @@ export type {
   Translate,
   Translations,
 } from './types.js';
+
+export type {
+  ExtractTokens,
+  TranslationAt,
+  TranslationPaths,
+  TypedLocalization,
+  TypedLocalizationContextValue,
+  TypedLocalizationProviderProps,
+  TypedMessageProps,
+  TypedTranslate,
+} from './createLocalization.js';

@@ -73,7 +73,7 @@ For everything else (plurals, currency, dates) — reach for [the platform](http
 
 | Property             | Value                                                  |
 | -------------------- | ------------------------------------------------------ |
-| Bundle (brotli)      | **916 B** ESM · 989 B CJS                              |
+| Bundle (brotli)      | **996 B** ESM · 1.07 kB CJS                            |
 | Runtime dependencies | **0**                                                  |
 | Source               | Strict **TypeScript 6**                                |
 | Module formats       | ESM + CJS with proper `exports`/`types` conditions     |
@@ -144,6 +144,32 @@ function CartHeader() {
 ```
 
 That's the whole story. Full docs at **[yankouskia.github.io/localize-react](https://yankouskia.github.io/localize-react)**.
+
+## 🛡 Fully type-safe with `createLocalization()`
+
+Want the compiler to catch missing keys, typo'd descriptors, and forgotten `{{tokens}}`? Wrap your translations once and use the typed bindings:
+
+```tsx
+import { createLocalization } from 'localize-react';
+
+const translations = {
+  en: { greeting: 'Hi {{name}}!', cart: { checkout: 'Checkout' } },
+  es: { greeting: '¡Hola {{name}}!', cart: { checkout: 'Pagar' } },
+} as const;
+
+export const { LocalizationProvider, useLocalize, Message } =
+  createLocalization(translations);
+
+// inside a component — `translate` autocompletes descriptors and requires {{name}}:
+function Greeting() {
+  const { translate } = useLocalize();
+  return <h1>{translate('greeting', { name: 'Alex' })}</h1>; // ✅
+  // translate('greting');                  ❌ Type '"greting"' is not assignable
+  // translate('greeting');                 ❌ Property 'name' is missing
+}
+```
+
+A pure compile-time wrapper — no runtime cost, no second cache, ~60 bytes added to the brotli bundle compared to the untyped exports. Full guide: **[Type-safe API](https://yankouskia.github.io/localize-react/docs/guides/type-safe-api)**.
 
 ## 🧠 Concept in one screen
 

@@ -17,6 +17,7 @@ const sidebars: SidebarsConfig = {
         'guides/locale-resolution',
         'guides/fallbacks',
         'guides/typescript',
+        'guides/type-safe-api',
       ],
     },
     {

@@ -10,6 +10,7 @@ describe('public API', () => {
         'LocalizationContext',
         'LocalizationProvider',
         'Message',
+        'createLocalization',
         'useLocalize',
       ].toSorted(),
     );
