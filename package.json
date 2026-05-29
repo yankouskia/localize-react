@@ -1,6 +1,6 @@
 {
   "name": "localize-react",
-  "version": "2.0.0-next.0",
+  "version": "2.0.0",
   "description": "Tiny, type-safe React i18n library built on Context and hooks — dual ESM + CJS, zero runtime deps.",
   "keywords": [
     "react",
