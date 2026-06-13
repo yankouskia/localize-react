@@ -49,7 +49,9 @@
   },
   "pnpm": {
     "overrides": {
+      "joi": "^18.2.1",
       "serialize-javascript": "^7.0.5",
+      "shell-quote": "^1.8.4",
       "uuid": "^11.1.1"
     }
   }
