@@ -87,7 +87,8 @@
   "pnpm": {
     "overrides": {
       "tmp": ">=0.2.4",
-      "fflate": "0.8.2"
+      "fflate": "0.8.2",
+      "esbuild": "^0.28.1"
     }
   },
   "simple-git-hooks": {
