@@ -65,7 +65,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The internal memo cache clears automatically whenever `locale` or `translations` change.
+The internal memo cache rebuilds automatically whenever `locale` or `translations` change, which discards the previous entries.
 
 ## `disableCache`
 
@@ -77,7 +77,7 @@ The provider memoizes translate results by `JSON.stringify(values) + descriptor 
 </LocalizationProvider>
 ```
 
-In production, leave it off. The cache is module-scoped (a single `Object.create(null)`) and pays for itself after a few rerenders.
+In production, leave it off. The cache is per-provider (a closure-scoped `Object.create(null)` that lives exactly as long as the provider) and pays for itself after a few rerenders. Two providers — or two `createLocalization()` factories — never share entries.
 
 ## Performance notes
 

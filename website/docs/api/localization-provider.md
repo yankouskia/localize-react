@@ -52,11 +52,11 @@ function Shell({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The internal cache is cleared on every locale or translations change.
+The internal cache is rebuilt on every locale or translations change, discarding the previous entries.
 
 ## Stacking providers
 
-You can mount more than one provider — descendants see the nearest. Useful for tests or for swapping a subtree's locale without rerendering the rest:
+You can mount more than one provider — descendants see the nearest. Useful for tests or for swapping a subtree's locale without rerendering the rest. Each provider keeps its **own** translate cache, so nested or sibling providers with overlapping descriptors never serve each other's strings:
 
 ```tsx
 <LocalizationProvider locale="en" translations={translations}>

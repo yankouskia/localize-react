@@ -151,6 +151,8 @@ script tag can switch to `<script type="module" src="https://esm.sh/localize-rea
 
 ## ADR-008 — Keep module-level translation cache (don't refactor)
 
+> **Superseded by ADR-009 (v2.2).** The per-provider cache shipped after all.
+
 **Context.** `helpers.ts` keeps a single module-scoped `TRANSLATION_CACHE`.
 Two `<LocalizationProvider>`s in the same app share it. This is a latent bug
 (switching locales in one provider can serve stale strings to the other)
@@ -165,3 +167,39 @@ Cleaner, but visibly changes timing in edge cases (two providers, same
 key, different translations). That's a behavioural breaking change with no
 upgrade path other than "test your app". Not worth bundling into a release
 otherwise dominated by toolchain work.
+
+---
+
+## ADR-009 — Per-provider translation cache (supersedes ADR-008)
+
+**Context.** ADR-008 deferred the module-scoped-cache fix to "v3". But the
+typed `createLocalization()` factory (v2.0) actively encourages mounting
+more than one translation tree in the same app — feature-scoped factories
+are the intended pattern — and `<RichMessage />` (v2.1) makes the failure
+mode worse: when the shared cache returns the wrong template, the entire
+`{{token}}` substitution step silently becomes a no-op. Two adversarial
+reviews independently reproduced the cross-contamination. The "latent bug
+nobody hits" assumption no longer holds.
+
+**Decision.** Give each `memoize()` wrapper its own closure-scoped cache.
+The provider already rebuilds the wrapper via `useMemo([disableCache,
+pureTranslations])` whenever `locale`/`translations` change, so wrapper
+rebuild _is_ cache invalidation — the separate module-level
+`clearCache()` + `useEffect` are deleted. Net effect: two providers never
+share entries, and the bundle shrinks (one fewer export, one fewer effect).
+
+**Alternatives considered.**
+
+- _Namespace the module cache by a provider id._ Keeps a global object
+  alive for the app's lifetime (a slow leak) and needs an id-generation
+  scheme. The closure approach gets correct lifetimes for free — the cache
+  dies with the provider.
+- _`useRef` cache._ Equivalent lifetime, but the cache would then have to
+  be threaded into `memoize`; the closure already captures it cleanly.
+
+**Consequences.** Removes `clearCache` from the internal surface (it was
+never part of the public API). Tests that relied on a global reset between
+cases no longer need it — unmounting a provider discards its cache. The
+documented "shared cache" caveat is removed from the FAQ, the type-safe-API
+guide, and the `<RichMessage />` recipe. This is a behavioural fix, not a
+breaking API change: single-provider apps see identical output.

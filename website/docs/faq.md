@@ -30,13 +30,13 @@ In principle yes — there's no DOM dependency in the runtime. We don't currentl
 
 Yes. `useLocalize()` returns a passthrough `translate` (returns the descriptor / `defaultMessage`). That makes the library safe to use in shared library components — they degrade gracefully when no provider is mounted.
 
-### Why module-scoped cache vs. provider-scoped?
+### Is the translate cache shared between providers?
 
-Behavioural parity with v1 (which shipped a module-scoped cache). See `DECISIONS.md` ADR-008 in the repo. In practice it makes no difference for single-provider apps and is slightly cheaper memory-wise.
+No. As of v2.2 each `<LocalizationProvider>` owns an independent, closure-scoped memo cache, so two providers — or two `createLocalization()` factories — never see each other's entries. The cache is rebuilt (and the old one discarded) whenever `locale` or `translations` change. Earlier versions used a single module-scoped cache; see `DECISIONS.md` ADR-009 in the repo for the change rationale.
 
 ### Does it interact with React Server Components?
 
-`LocalizationProvider` is a client component (it uses `useMemo` + `useEffect`). Mount it once in a `'use client'` boundary; everything below sees the context. Server components can compute strings out-of-band — see the **[Next.js recipe](./recipes/nextjs)**.
+`LocalizationProvider` is a client component (it uses `useMemo`). Mount it once in a `'use client'` boundary; everything below sees the context. Server components can compute strings out-of-band — see the **[Next.js recipe](./recipes/nextjs)**.
 
 ### Why mustache `{{name}}` and not `{name}`?
 

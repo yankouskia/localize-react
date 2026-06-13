@@ -15,15 +15,6 @@ export const NO_TEMPLATE_VALUE_MESSAGE =
 export const PARSE_TEMPLATE_REGEXP = /\{\{([^{}]+)\}\}/g;
 
 /**
- * Module-scoped translation cache. Kept module-scoped (rather than
- * provider-scoped) for behavioural parity with v1.x; see ADR-008.
- */
-let translationCache: Record<string, string> = Object.create(null) as Record<
-  string,
-  string
->;
-
-/**
  * Normalize a locale string against the available translation keys.
  *
  * - Returns `null` if no locale was supplied.
@@ -53,25 +44,32 @@ export function sanitizeLocale(
 /**
  * Returns a memoizing wrapper around {@link fn}. The cache key combines
  * the descriptor, the JSON-serialized values, and the default message.
+ *
+ * Each call to `memoize` owns an independent cache (closure-scoped), so
+ * two providers — or two `createLocalization()` factories — never see
+ * each other's entries. The cache lives exactly as long as the wrapper:
+ * the provider builds a fresh wrapper whenever `locale` or
+ * `translations` change, which is also what invalidates stale entries.
+ * Supersedes the v1.x module-scoped cache; see ADR-013.
  */
 export function memoize(fn: Translate): Translate {
+  const cache: Record<string, string> = Object.create(null) as Record<
+    string,
+    string
+  >;
+
   return (descriptor, values, defaultMessage) => {
     const cacheKey = values
       ? JSON.stringify(values) + descriptor + (defaultMessage ?? '')
       : descriptor + (defaultMessage ?? '');
 
-    const cached = translationCache[cacheKey];
+    const cached = cache[cacheKey];
     if (cached !== undefined) return cached;
 
     const output = fn(descriptor, values, defaultMessage);
-    translationCache[cacheKey] = output;
+    cache[cacheKey] = output;
     return output;
   };
-}
-
-/** Reset the module-level translation cache. */
-export function clearCache(): void {
-  translationCache = Object.create(null) as Record<string, string>;
 }
 
 /**

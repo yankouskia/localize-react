@@ -163,6 +163,67 @@ describe('<LocalizationConsumer />', () => {
     expect(screen.getByTestId('o')).toHaveTextContent('translation');
   });
 
+  it('keeps caches isolated between sibling providers (no cross-contamination)', () => {
+    // Regression test for the v1.x module-scoped cache: two providers
+    // mounting different templates under the same descriptor used to
+    // poison each other within a single render pass.
+    render(
+      <>
+        <LocalizationProvider
+          locale="en"
+          translations={{ en: { greeting: 'plain string from A' } }}
+        >
+          <LocalizationConsumer>
+            {({ translate }) => (
+              <span data-testid="a">{translate('greeting')}</span>
+            )}
+          </LocalizationConsumer>
+        </LocalizationProvider>
+        <LocalizationProvider
+          locale="en"
+          translations={{ en: { greeting: 'Hi {{name}} from B' } }}
+        >
+          <LocalizationConsumer>
+            {({ translate }) => (
+              <span data-testid="b">
+                {translate('greeting', { name: 'Bob' })}
+              </span>
+            )}
+          </LocalizationConsumer>
+        </LocalizationProvider>
+      </>,
+    );
+    expect(screen.getByTestId('a')).toHaveTextContent('plain string from A');
+    expect(screen.getByTestId('b')).toHaveTextContent('Hi Bob from B');
+  });
+
+  it('keeps caches isolated between nested providers', () => {
+    render(
+      <LocalizationProvider
+        locale="en"
+        translations={{ en: { label: 'outer' } }}
+      >
+        <LocalizationConsumer>
+          {({ translate }) => (
+            <span data-testid="outer">{translate('label')}</span>
+          )}
+        </LocalizationConsumer>
+        <LocalizationProvider
+          locale="en"
+          translations={{ en: { label: 'inner' } }}
+        >
+          <LocalizationConsumer>
+            {({ translate }) => (
+              <span data-testid="inner">{translate('label')}</span>
+            )}
+          </LocalizationConsumer>
+        </LocalizationProvider>
+      </LocalizationProvider>,
+    );
+    expect(screen.getByTestId('outer')).toHaveTextContent('outer');
+    expect(screen.getByTestId('inner')).toHaveTextContent('inner');
+  });
+
   it('clears the cache when locale or translations change', () => {
     const { rerender } = render(
       <LocalizationProvider

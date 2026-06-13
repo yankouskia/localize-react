@@ -1,7 +1,7 @@
 ---
 id: testing
 title: Testing
-description: Render helpers, descriptor coverage checks, isolating the cache.
+description: Render helpers, descriptor coverage checks, and why cache isolation is automatic.
 ---
 
 # Testing
@@ -53,18 +53,15 @@ it('renders the cart summary', () => {
 });
 ```
 
-## Isolate the module cache
+## Cache isolation is automatic
 
-The translate cache is module-scoped. In Vitest, reset it between tests so a stale entry from a previous test can't leak:
+The translate cache is per-provider (closure-scoped), so there is nothing global to reset between tests — unmounting a provider discards its cache. A standard Testing Library teardown is all you need:
 
 ```ts title="test/setup.ts"
 import '@testing-library/jest-dom/vitest';
 import { afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
-// The library exports clearCache from src/helpers.ts internally; for tests
-// against your own components, the cache clears on locale/translations
-// change anyway, so usually you just need cleanup() here.
 afterEach(() => cleanup());
 ```
 

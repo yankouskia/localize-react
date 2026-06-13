@@ -2,7 +2,6 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   buildTranslation,
-  clearCache,
   memoize,
   NO_TEMPLATE_VALUE_MESSAGE,
   NO_TRANSLATION_WARNING_MESSAGE,
@@ -41,7 +40,7 @@ describe('sanitizeLocale', () => {
   });
 });
 
-describe('memoize / clearCache', () => {
+describe('memoize', () => {
   it('caches by descriptor + values + defaultMessage', () => {
     const inner = vi.fn<
       (
@@ -63,20 +62,37 @@ describe('memoize / clearCache', () => {
     expect(inner).toHaveBeenCalledTimes(2);
   });
 
-  it('clearCache invalidates entries', () => {
-    const inner = vi.fn<
-      (
-        descriptor: string,
-        values?: Record<string, string | number>,
-        defaultMessage?: string,
-      ) => string
-    >((descriptor) => `out:${descriptor}`);
-    const memoized = memoize(inner);
+  it('gives each wrapper an independent cache', () => {
+    const innerA = vi.fn<(descriptor: string) => string>(() => 'from A');
+    const innerB = vi.fn<(descriptor: string) => string>(() => 'from B');
 
-    memoized('a');
-    clearCache();
-    memoized('a');
+    const memoizedA = memoize(innerA);
+    const memoizedB = memoize(innerB);
 
+    // Same descriptor through both wrappers: each must consult its own
+    // inner fn — A's cached result must never leak into B.
+    expect(memoizedA('greeting')).toBe('from A');
+    expect(memoizedB('greeting')).toBe('from B');
+    expect(memoizedA('greeting')).toBe('from A');
+    expect(memoizedB('greeting')).toBe('from B');
+
+    expect(innerA).toHaveBeenCalledTimes(1);
+    expect(innerB).toHaveBeenCalledTimes(1);
+  });
+
+  it('drops its cache when the wrapper is discarded (rebuild = invalidation)', () => {
+    const inner = vi.fn<(descriptor: string) => string>(
+      (descriptor) => `out:${descriptor}`,
+    );
+
+    const first = memoize(inner);
+    first('a');
+    expect(inner).toHaveBeenCalledTimes(1);
+
+    // The provider rebuilds the wrapper when locale/translations change;
+    // a new wrapper must start cold.
+    const second = memoize(inner);
+    second('a');
     expect(inner).toHaveBeenCalledTimes(2);
   });
 

@@ -1,12 +1,7 @@
-import { createContext, useEffect, useMemo } from 'react';
+import { createContext, useMemo } from 'react';
 import type { JSX } from 'react';
 
-import {
-  buildTranslation,
-  clearCache,
-  memoize,
-  sanitizeLocale,
-} from './helpers.js';
+import { buildTranslation, memoize, sanitizeLocale } from './helpers.js';
 import type {
   LocalizationContextValue,
   LocalizationProviderProps,
@@ -60,10 +55,9 @@ export function LocalizationProvider({
       : {};
   }, [locale, translations]);
 
-  useEffect(() => {
-    clearCache();
-  }, [locale, translations]);
-
+  // No cache-clearing effect is needed: `memoize` owns its cache per
+  // wrapper, and the wrapper is rebuilt below whenever `locale` or
+  // `translations` change `pureTranslations`.
   const translate = useMemo<Translate>(() => {
     const pureTranslate: Translate = (descriptor, values, defaultMessage) => {
       if (!descriptor) return defaultMessage ?? descriptor;
